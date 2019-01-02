@@ -1,0 +1,48 @@
+appCode: mock
+
+# 系统的标题
+pageTitle: 禾优曼管理系统
+
+# 主题
+theme: antd/diy
+
+# 默认布局方式
+layout: basic
+
+# 小屏模式分界点
+smallScreen: 576
+
+# api前缀
+# 由于是单页应用，使用 HTML5 history 模式，需要对页面请求使用 主页 渲染
+apiPrefix: /api
+
+# 基础路径
+baseURI: "/mock"
+
+# 后端 Java 服务接口地址
+backendMap:
+  development: http://localhost:9005/mock/
+  # development: http://www.baidu.com
+  test: http://www.baidu.com
+  staging: http://www.baidu.com
+  production: http://www.baidu.com
+
+server:
+  port: 8080
+  devPort : 9005
+  debugPort: 7005
+
+dbOption:
+  host : 'localhost'
+  port : '3306'
+  user : 'root'
+  password : 'Anthony1021'
+  database : 'mock'
+  connectionLimit: 20
+
+# 是否开启session
+session: false
+
+cas:
+  enable: false
+  url:

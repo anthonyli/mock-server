@@ -1,0 +1,58 @@
+{
+  "apps": [
+    {
+      "name": "mock-development",
+      "script": "./server/server.js",
+      "exec_mode": "fork",
+      "max_memory_restart": "500M",
+      "env": {
+        "NODE_ENV": "development",
+        "BLUEBIRD_WARNINGS": 0
+      },
+      "node_args": " --inspect=7005 --inspect=7005 --inspect=7005 --inspect=7005 --inspect=7005 --inspect=7005 --inspect=7005 --inspect=7005 --inspect=7005 --inspect=7005 --inspect=7005 --inspect=7005"
+    },
+    {
+      "name": "mock-dev-server",
+      "script": "./scripts/server.js",
+      "exec_mode": "fork",
+      "max_memory_restart": "500M",
+      "env": {
+        "NODE_ENV": "development"
+      }
+    },
+    {
+      "name": "mock-test",
+      "script": "./server/server.js",
+      "exec_mode": "fork",
+      "max_memory_restart": "500M",
+      "interpreter": "node",
+      "env": {
+        "NODE_ENV": "test",
+        "BLUEBIRD_WARNINGS": 0
+      },
+      "node_args": " --inspect=7005 --inspect=7005 --inspect=7005 --inspect=7005 --inspect=7005 --inspect=7005 --inspect=7005 --inspect=7005 --inspect=7005 --inspect=7005 --inspect=7005 --inspect=7005"
+    },
+    {
+      "name": "mock-staging",
+      "script": "./server/server.js",
+      "instances": "4",
+      "exec_mode": "cluster",
+      "max_memory_restart": "500M",
+      "env": {
+        "NODE_ENV": "staging",
+        "BLUEBIRD_WARNINGS": 0
+      }
+    },
+    {
+      "name": "mock-production",
+      "script": "./server/server.js",
+      "instances": "2",
+      "exec_mode": "cluster",
+      "max_memory_restart": "200M",
+      "env": {
+        "NODE_ENV": "production",
+        "BLUEBIRD_WARNINGS": 0
+      }
+    }
+  ]
+}
