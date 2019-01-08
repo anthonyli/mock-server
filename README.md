@@ -24,7 +24,7 @@ mysql -u username -p
 
 ```bash
 
-mysqldump -u root -p hum > hum.sql
+mysqldump -u root -p mock > mock.sql
 
 ```
 
@@ -32,7 +32,7 @@ mysqldump -u root -p hum > hum.sql
 
 ```bash
 
-create database hum;
-mysql -u root  -p hum < hum.sql
+create database mock;
+mysql -u root  -p mock < mock.sql
 
 ```
