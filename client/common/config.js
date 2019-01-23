@@ -6,8 +6,8 @@ const {
   appCode,
   resourceList,
   userInfo,
-  cas,
   env,
+  pageTitle,
   layout,
   smallScreen
 } = window.__config__
@@ -24,7 +24,7 @@ export {
   apiPrefix,
   // 系统编号
   appCode,
-  cas,
+  pageTitle,
   // 菜单项
   menus,
   // 用户资源列表

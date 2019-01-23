@@ -1,10 +1,10 @@
 appCode: mock
 
 # 系统的标题
-pageTitle: 禾优曼管理系统
+pageTitle: Mock文档中心
 
 # 主题
-theme: antd/diy
+theme: antd/daybreak-blue
 
 # 默认布局方式
 layout: basic
@@ -23,9 +23,6 @@ baseURI: "/mock"
 backendMap:
   development: http://localhost:9005/mock/
   # development: http://www.baidu.com
-  test: http://www.baidu.com
-  staging: http://www.baidu.com
-  production: http://www.baidu.com
 
 server:
   port: 8080
@@ -39,10 +36,3 @@ dbOption:
   password : 'Anthony1021'
   database : 'mock'
   connectionLimit: 20
-
-# 是否开启session
-session: false
-
-cas:
-  enable: false
-  url:

@@ -3,7 +3,15 @@ import PropTypes from 'prop-types'
 import Layout from './layout'
 import withMenu from './with-menu'
 
-import { userInfo, menus, appCode, baseURI, responsive, defaultLayout } from 'common/config'
+import {
+  userInfo,
+  menus,
+  appCode,
+  baseURI,
+  responsive,
+  defaultLayout,
+  pageTitle
+} from 'common/config'
 
 let { nicknameCn = '' } = userInfo
 
@@ -23,7 +31,7 @@ const withLayout = (layout = defaultLayout) => WrappedComponent => {
           menus={menus}
           logoutUrl={`${baseURI}/logout`}
           userName={nicknameCn}
-          title="禾优曼管理系统"
+          title={pageTitle}
           appCode={appCode}
           logo={require('../../assets/images/logo.png')}
           responsive={responsive}

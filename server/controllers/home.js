@@ -5,7 +5,6 @@ const {
   pageTitle,
   version,
   layout,
-  cas,
   smallScreen
 } = require('utils/config')
 
@@ -31,17 +30,6 @@ function getInitState() {
 // 获取全局配置
 async function getConfig(ctx) {
   let userInfo = {}
-  if (cas.enable) {
-    userInfo = {
-      nickname: ctx.session.userName,
-      nicknameCn: ctx.session.userNameCN || ctx.session.userName
-    }
-  } else {
-    userInfo = {
-      nickname: '',
-      nicknameCn: ''
-    }
-  }
   return {
     // 基础 URI
     baseURI,
@@ -49,9 +37,9 @@ async function getConfig(ctx) {
     apiPrefix,
     // 系统编号
     appCode,
-    cas,
     // 用户信息
     userInfo,
+    pageTitle,
     env,
     version,
     layout,

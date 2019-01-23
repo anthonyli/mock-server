@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Form, Icon, Input, Button, message as $message } from 'antd'
 import { Redirect } from 'react-router-dom'
-import { cas } from 'common/config'
 import './index.less'
 
 const FormItem = Form.Item
@@ -44,7 +43,7 @@ class Login extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form
-    const isLogin = cas.enable || this.props.user.get('isLogin')
+    const isLogin = this.props.user.get('isLogin')
 
     return (
       <div className="page-login">

@@ -2,6 +2,7 @@ const Router = require('koa-router')
 const appConfig = require('utils/config')
 const path = require('path')
 const glob = require('glob')
+const axios = require('axios')
 
 const { apiPrefix, baseURI } = appConfig
 
@@ -20,12 +21,18 @@ glob
   })
 
 router.post('/regions/query', async ctx => {
-  const path = require('../../../mock/regions/query')
+  const path = require('../../mock/regions/query')
 
   ctx.body = {
     code: 0,
     data: path.objects
   }
+})
+
+router.post('/regions/query', async ctx => {
+  const params = ctx.request.body
+  const data = await axios.get(`https://api.weibo.com/2/short_url/shorten.json${ctx.path}`, params)
+  ctx.body = data.data
 })
 
 module.exports = router

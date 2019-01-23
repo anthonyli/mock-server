@@ -4,21 +4,6 @@ const menus = [
     icon: 'appstore-o',
     children: [
       {
-        name: '候选人',
-        path: '/candidate',
-        icon: 'contacts'
-      },
-      {
-        name: '项目管理',
-        path: '/project',
-        icon: 'project'
-      },
-      {
-        name: '客户管理',
-        path: '/company',
-        icon: 'global'
-      },
-      {
         name: '设置',
         path: '/user',
         icon: 'setting'
