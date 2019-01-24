@@ -29,7 +29,7 @@ export default function SiderMenu(props) {
   )
 
   return !_.isEmpty(menus) ? (
-    <Layout.Sider collapsible={!responsive} onCollapse={onCollapse}>
+    <Layout.Sider collapsible={!responsive} collapsed={collapsed} onCollapse={onCollapse}>
       {logoContent}
       <Menu
         theme="dark"

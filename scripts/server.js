@@ -45,9 +45,6 @@ const server = new WebpackDevServer(compiler, {
     aggregateTimeout: 300
   },
 
-  // 请求重定向：
-  // http://${devIp}:${devPort}/build/* =>
-  // http://${devIp}:${devPort}/webpack-dev-server/*
   proxy: {
     '/build': {
       target: `http://${devIp}:${devPort}/`,

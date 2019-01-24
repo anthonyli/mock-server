@@ -1,10 +1,10 @@
 appCode: mock
 
 # 系统的标题
-pageTitle: Mock文档中心
+pageTitle: Mock文档
 
 # 主题
-theme: antd/daybreak-blue
+theme: antd/diy
 
 # 默认布局方式
 layout: basic

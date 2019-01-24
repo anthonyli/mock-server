@@ -7,9 +7,8 @@ const Promise = require('bluebird')
 
 console.log('start deploying...')
 
-const startTime = Date.now()
 const env = process.env.NODE_ENV || 'development'
-
+console.time('执行时间')
 const pkgName = process.env.npm_package_name
 
 Promise.resolve()
@@ -30,8 +29,7 @@ Promise.resolve()
     })
   )
   .then(() => {
-    const time = (Date.now() - startTime) / 1000
-    console.log(`deploy success in ${time.toFixed(2)} s`)
+    console.timeEnd('执行时间')
   })
   .catch(err => {
     console.log(err)

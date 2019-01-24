@@ -1,7 +1,7 @@
 const menus = [
   {
-    name: '示例代码',
-    icon: 'appstore-o',
+    name: '我的',
+    icon: 'user',
     children: [
       {
         name: '设置',

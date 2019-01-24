@@ -14,25 +14,23 @@ Promise.promisifyAll(fs)
 
 console.log('start compiling...')
 
-const startTime = Date.now()
 let env = process.env.NODE_ENV || 'development'
 
 console.log(`using ${env} config`)
 
 const devIp = ip()[0]
 const root = path.join(__dirname, '..')
-const processPath = path.join(root, 'process.json')
 const viewsPath = path.join(root, 'server/views')
 const configPath = path.join(root, `config/webpack.config.${env}`)
 const appConfigPath = path.join(root, 'config/app.yaml')
 
 const config = require(configPath)
-const processJson = require(processPath)
 const appConfig = yaml.safeLoad(fs.readFileSync(appConfigPath))
 const serverConfig = appConfig.server
 
 const buildPath = config.output.path
-const pkgName = process.env.npm_package_name
+
+console.time('执行时间')
 
 Promise.resolve()
   .then(() => {
@@ -44,20 +42,7 @@ Promise.resolve()
   .then(() => {
     console.log('update process.json')
 
-    // const debugPort = serverConfig.debugPort
-
-    // 更新 process.json
-    processJson.apps.forEach(app => {
-      // if (/development|test/.test(app.name)) {
-      //   app.node_args = `${app.node_args || ''} --inspect=${debugPort}`
-      // }
-
-      if (!app.name.startsWith(pkgName)) {
-        app.name = `${pkgName}-${app.name}`
-      }
-    })
-
-    return fs.writeJsonAsync(processPath, processJson)
+    return Promise.resolve()
   })
   .then(() => {
     console.log('webpack building...')
@@ -89,11 +74,8 @@ Promise.resolve()
 
           return reject(err)
         }
-
-        const time = (stats.endTime - stats.startTime) / 1000
-
-        console.log(`webpack build success in ${time.toFixed(2)} s`)
-
+        console.timeEnd('执行时间')
+        console.time('上传时间')
         resolve()
       })
     })
@@ -122,8 +104,7 @@ Promise.resolve()
     return Promise.resolve()
   })
   .then(() => {
-    const time = (Date.now() - startTime) / 1000
-    console.log(`compile success in ${time.toFixed(2)} s`)
+    console.timeEnd('上传时间')
   })
   .catch(err => {
     console.log(err)

@@ -7,13 +7,13 @@ import {
   userInfo,
   menus,
   appCode,
+  pageTitle,
   baseURI,
   responsive,
-  defaultLayout,
-  pageTitle
+  defaultLayout
 } from 'common/config'
 
-let { nicknameCn = '' } = userInfo
+const { nicknameCn = '' } = userInfo
 
 const withLayout = (layout = defaultLayout) => WrappedComponent => {
   const CustomerLayout = withMenu(Layout)
@@ -33,7 +33,7 @@ const withLayout = (layout = defaultLayout) => WrappedComponent => {
           userName={nicknameCn}
           title={pageTitle}
           appCode={appCode}
-          logo={require('../../assets/images/logo.png')}
+          logo={require('../../assets/images/icon.png')}
           responsive={responsive}
           className={this.className}
           layout={layout}
@@ -47,9 +47,9 @@ const withLayout = (layout = defaultLayout) => WrappedComponent => {
     }
 
     get className() {
-      let className = `hum-layout hum-layout-${layout}`
+      let className = `top-layout top-layout-${layout}`
       if (responsive) {
-        className += ' hum-layout-responsive'
+        className += ' top-layout-responsive'
       }
 
       return className
