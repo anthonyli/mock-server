@@ -1,5 +1,5 @@
 {
-  "name": "mock",
+  "name": "mapi",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:anthonyli/mock-server.git"
+    "url": "git@github.com:anthonyli/mAPI.git"
   },
   "license": "MIT",
   "lint-staged": {

@@ -1,7 +1,7 @@
 {
   "apps": [
     {
-      "name": "mock-development",
+      "name": "mapi-development",
       "script": "./server/server.js",
       "exec_mode": "fork",
       "max_memory_restart": "500M",
@@ -12,7 +12,7 @@
       "node_args": " --inspect=7005 --inspect=7005 --inspect=7005 --inspect=7005 --inspect=7005 --inspect=7005 --inspect=7005 --inspect=7005 --inspect=7005 --inspect=7005 --inspect=7005 --inspect=7005"
     },
     {
-      "name": "mock-dev-server",
+      "name": "mapi-dev-server",
       "script": "./scripts/server.js",
       "exec_mode": "fork",
       "max_memory_restart": "500M",
@@ -21,7 +21,7 @@
       }
     },
     {
-      "name": "mock-test",
+      "name": "mapi-test",
       "script": "./server/server.js",
       "exec_mode": "fork",
       "max_memory_restart": "500M",
@@ -33,7 +33,7 @@
       "node_args": " --inspect=7005 --inspect=7005 --inspect=7005 --inspect=7005 --inspect=7005 --inspect=7005 --inspect=7005 --inspect=7005 --inspect=7005 --inspect=7005 --inspect=7005 --inspect=7005"
     },
     {
-      "name": "mock-staging",
+      "name": "mapi-staging",
       "script": "./server/server.js",
       "instances": "4",
       "exec_mode": "cluster",
@@ -44,7 +44,7 @@
       }
     },
     {
-      "name": "mock-production",
+      "name": "mapi-production",
       "script": "./server/server.js",
       "instances": "2",
       "exec_mode": "cluster",

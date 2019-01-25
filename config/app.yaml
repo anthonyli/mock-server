@@ -1,4 +1,4 @@
-appCode: mock
+appCode: mapi
 
 # 系统的标题
 pageTitle: Mock文档
@@ -9,6 +9,8 @@ theme: antd/diy
 # 默认布局方式
 layout: basic
 
+islogin: true
+
 # 小屏模式分界点
 smallScreen: 576
 
@@ -17,7 +19,7 @@ smallScreen: 576
 apiPrefix: /api
 
 # 基础路径
-baseURI: "/mock"
+baseURI: "mapi"
 
 # 后端 Java 服务接口地址
 backendMap:

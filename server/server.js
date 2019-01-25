@@ -33,10 +33,9 @@ const isDev = app.env === 'development'
 const port = config.server.port
 
 app.name = pkg.name
-app.keys = [`${pkg.group}-${pkg.name}`]
 
-app.use(checkToken())
 app.use(healthCheck())
+
 app.use(favicon(path.join(__dirname, '../client/assets/images/icon.png')))
 // 日志
 app.use(
@@ -53,6 +52,7 @@ app.use(tplRender(isDev))
 
 // 需要开启 静态资源
 const staticServer = require('koa-static-cache')
+
 app.use(
   staticServer(path.join(__dirname, '../build'), {
     maxage: 3600 * 24 * 30,
@@ -60,9 +60,11 @@ app.use(
   })
 )
 
+app.use(checkToken())
+
 app.use(
   jwt({ secret: secret.sign }).unless({
-    path: [/^(?!\/mock\/api)/, /^\/mock\/api\/user\/login/]
+    path: [/^(?!\/mapi\/api)/, /^\/mapi\/api\/user\/login/]
   })
 )
 
