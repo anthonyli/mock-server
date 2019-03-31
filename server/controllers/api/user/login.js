@@ -18,7 +18,7 @@ module.exports = async ctx => {
         name: userData.userName,
         id: userData.id
       }
-      const token = jwt.sign(userToken, secret.sign, { expiresIn: '4h' }) // 签发token
+      const token = jwt.sign(userToken, secret.sign, { expiresIn: '7 days' }) // 签发token
       ctx.body = {
         code: 0,
         data: {

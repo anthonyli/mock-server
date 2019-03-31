@@ -18,8 +18,6 @@ module.exports = config => {
     logging: env === 'development' || false,
 
     timezone: '+08:00',
-    /* 加利福尼亚州 */
-    // timezone: '-08:00',
 
     pool: {
       max: 10

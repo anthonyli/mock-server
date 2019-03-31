@@ -19,7 +19,7 @@ smallScreen: 576
 apiPrefix: /api
 
 # 基础路径
-baseURI: "mapi"
+baseURI: "/mapi"
 
 # 后端 Java 服务接口地址
 backendMap:
