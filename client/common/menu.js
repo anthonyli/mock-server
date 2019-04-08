@@ -4,6 +4,11 @@ const menus = [
     icon: 'user',
     children: [
       {
+        name: '项目',
+        path: '/project',
+        icon: 'project'
+      },
+      {
         name: '设置',
         path: '/user',
         icon: 'setting'

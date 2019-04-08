@@ -1,18 +1,22 @@
-import { bindActionCreators } from 'redux'
+import ListTable from '../components'
 import { connect } from 'react-redux'
-import ProjectList from 'com/Project/list'
-import * as ProjectActions from '../../actions/ProjectActions'
-import 'com/Project/index.less'
 
 function mapStateToProps(state) {
+  const project = state.project
   return {
-    projectList: state.get('project').get('projectList')
+    project
   }
 }
+
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(ProjectActions, dispatch)
+  return {
+    action: {
+      ...dispatch.project
+    }
+  }
 }
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ProjectList)
+)(ListTable)

@@ -1,5 +1,4 @@
-import moment from 'moment'
-import _ from 'lodash'
+import { toTypeof, toTrim } from '../utils'
 
 export default {
   /**
@@ -14,11 +13,10 @@ export default {
     const { skipEmpty } = options
     const filterFunc = skipEmpty ? result => result != null && result !== '' : () => true
 
-    if (Array.isArray(params)) {
+    if (toTypeof(params) === 'array') {
       return params.map(value => this.parseParams(value, options)).filter(filterFunc)
     }
-
-    if (_.isPlainObject(params)) {
+    if (toTypeof(params) === 'object') {
       const result = {}
 
       Object.keys(params)
@@ -43,12 +41,8 @@ export default {
     let result = value
 
     if (typeof value === 'string') {
-      result = value.trim()
-    } else if (value instanceof moment) {
-      // antd 日期组件默认返回 moment 格式
-      result = value.format('YYYY-MM-DD')
+      result = toTrim(value)
     }
-
     return result
   }
 }

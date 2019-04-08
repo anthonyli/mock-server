@@ -8,7 +8,10 @@ module.exports = function(sequelize, DataTypes) {
         primaryKey: true,
         autoIncrement: true
       },
-      projectName: { type: DataTypes.STRING(128), field: 'project_name' },
+      projectName: {
+        type: DataTypes.STRING(128),
+        field: 'project_name'
+      },
       description: DataTypes.STRING(500),
       author: DataTypes.STRING(45),
       status: DataTypes.INTEGER(1),

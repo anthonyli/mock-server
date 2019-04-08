@@ -1,33 +1,37 @@
 import im from 'immutable'
 import axios from 'common/axios'
 
+const getDefaultParams = () => {
+  return {
+    size: 10,
+    page: 1
+  }
+}
+
 const initialState = im.fromJS({
-  isLogin: !!localStorage.getItem('token'),
-  userInfo: {
-    userName: localStorage.getItem('userName'),
-    userNickName: localStorage.getItem('userNickName'),
-    companyName: localStorage.getItem('companyName')
-  },
-  list: []
+  list: {
+    loading: false,
+    params: getDefaultParams(),
+    defaultParams: getDefaultParams(),
+    dataSource: []
+  }
 })
 
 export default {
   state: initialState,
   reducers: {
-    isLogin: (state, payload) => {
-      return state.set('isLogin', payload)
+    list: (state, payload) => {
+      return state.update('list', list =>
+        list.set('dataSource', im.fromJS(payload)).set('loading', false)
+      )
     },
-    setUserName: (state, payload) => {
-      return state.setIn(['userInfo', 'userName'], payload)
+    loading: (state, payload) => {
+      return state.update('list', list => list.set('loading', true))
     },
-    setUserNickName: (state, payload) => {
-      return state.setIn(['userInfo', 'userNickName'], payload)
-    },
-    setUserList: (state, payload) => {
-      return state.set('list', im.fromJS(payload))
-    },
-    setcompanyName: (state, payload) => {
-      return state.setIn(['userInfo', 'setcompanyName'], payload)
+    setParams: (state, payload) => {
+      return state.update('list', list =>
+        list.set('params', im.fromJS(payload)).set('loading', false)
+      )
     }
   },
   effects: {
@@ -37,10 +41,6 @@ export default {
     async getUserList(data, rootState) {
       const list = await axios.get('/user/list')
       this.setUserList(list)
-    },
-    logout(data, rootState) {
-      localStorage.removeItem('token')
-      this.isLogin(false)
     }
   }
 }

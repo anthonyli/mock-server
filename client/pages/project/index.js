@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { Route, Switch } from 'react-router-dom'
 
-import List from 'pages/user/page'
+import List from 'pages/project/page/list'
 
-class User extends Component {
+class Project extends Component {
   render() {
     return (
       <Switch>
@@ -12,4 +12,4 @@ class User extends Component {
     )
   }
 }
-export default User
+export default Project
