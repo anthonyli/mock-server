@@ -12,10 +12,6 @@ module.exports = function(sequelize, DataTypes) {
         type: DataTypes.STRING(45),
         field: 'user_name'
       },
-      userNamePinyin: {
-        type: DataTypes.STRING(45),
-        field: 'user_en_name'
-      },
       userNickName: {
         type: DataTypes.STRING(45),
         field: 'user_nick_name'
@@ -27,10 +23,6 @@ module.exports = function(sequelize, DataTypes) {
       userTel: {
         type: DataTypes.STRING(20),
         field: 'user_tel'
-      },
-      userAddress: {
-        type: DataTypes.STRING(100),
-        field: 'user_address'
       },
       userSex: {
         type: DataTypes.STRING(10),
@@ -46,7 +38,7 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     {
-      tableName: 'client_doc_user'
+      tableName: 'doc_user'
     }
   )
 

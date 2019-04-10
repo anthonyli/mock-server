@@ -13,7 +13,7 @@ module.exports = function(sequelize, DataTypes) {
         field: 'project_name'
       },
       description: DataTypes.STRING(500),
-      author: DataTypes.STRING(45),
+      uid: DataTypes.INTEGER(10),
       status: DataTypes.INTEGER(1),
       createdTime: {
         type: DataTypes.DATE,
@@ -25,7 +25,7 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     {
-      tableName: 'client_doc_project'
+      tableName: 'doc_project'
     }
   )
 

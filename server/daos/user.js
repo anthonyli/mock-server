@@ -1,15 +1,5 @@
 module.exports = class {
-  async findOrSave(opts = {}) {
-    return global.M.User.findOrCreate({
-      where: {
-        userName: opts.userName
-      },
-      defaults: {
-        userName: opts.userName
-      }
-    })
-  }
-  async getUserList(filter) {
+  getUserList(filter) {
     return global.M.User.findAll({
       where: {
         ...filter
@@ -17,7 +7,12 @@ module.exports = class {
     })
   }
 
-  async getUserById(userName) {
+  findAll() {
+    const { User } = global.M
+    return User.findAll()
+  }
+
+  getUserById(userName) {
     return global.M.User.findOne({
       where: {
         userName
@@ -25,7 +20,7 @@ module.exports = class {
     })
   }
 
-  async login(params) {
+  login(params) {
     return global.M.User.findOne({
       where: {
         userName: params.userName

@@ -11,9 +11,7 @@ class ListViews extends React.Component {
   }
   constructor(props) {
     super(props)
-    this.state = {
-      cardActionType: ''
-    }
+    this.state = {}
   }
   columns = [
     {

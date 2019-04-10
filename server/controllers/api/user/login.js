@@ -16,13 +16,16 @@ module.exports = async ctx => {
       // 用户token
       const userToken = {
         name: userData.userName,
+        nickname: userData.userNickName,
         id: userData.id
       }
+      ctx.user = { ...userToken }
       const token = jwt.sign(userToken, secret.sign, { expiresIn: '7 days' }) // 签发token
       ctx.body = {
         code: 0,
         data: {
           userNickName: userData.userNickName,
+          id: userData.id,
           userName,
           token
         }

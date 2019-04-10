@@ -22,7 +22,7 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     {
-      tableName: 'client_doc_permission'
+      tableName: 'doc_permission'
     }
   )
 
