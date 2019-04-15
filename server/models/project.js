@@ -34,6 +34,10 @@ module.exports = function(sequelize, DataTypes) {
       as: 'Document',
       foreignKey: 'pid'
     })
+    models.Project.hasMany(models.Permission, {
+      as: 'Permission',
+      foreignKey: 'pid'
+    })
     models.Project.hasMany(models.Category, {
       as: 'Category',
       foreignKey: 'pid'

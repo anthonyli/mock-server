@@ -3,8 +3,8 @@ import axios from 'common/axios'
 
 const getDefaultParams = () => {
   return {
-    size: 10,
-    page: 1
+    pageSize: 10,
+    pageIndex: 1
   }
 }
 
@@ -38,9 +38,15 @@ export default {
     login(data, rootState) {
       return axios.post('/user/login', data)
     },
-    async getUserList(data, rootState) {
-      const list = await axios.get('/user/list')
-      this.setUserList(list)
+    async query(params, rootState) {
+      let newParams = Object.assign(
+        rootState.project.getIn(['list', 'defaultParams']).toJS(),
+        params
+      )
+      this.loading()
+      const data = await axios.get('/project/list', { params: newParams })
+      this.list(data)
+      this.setParams(newParams)
     }
   }
 }

@@ -10,7 +10,8 @@ export default class UserPage extends React.Component {
   }
 
   componentDidMount() {
-    // const { query } = this.props.action
+    const { query } = this.props.action
+    query()
   }
 
   render() {

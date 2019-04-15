@@ -3,27 +3,82 @@ const STATUS_DISABLED = 0
 const ROLE_OWNER = 1
 const ROLE_MEMBER = 2
 module.exports = class {
-  async getProjectList(ctx) {
-    const { Permission, Project, sequelize } = global.M
-    return Permission.findAll({
-      attributes: {
-        include: [[sequelize.fn('count'), 'count']]
-      },
-      include: [
-        {
-          model: Project,
-          as: 'Project',
-          required: false,
+  getProjectList(ctx) {
+    const { Permission, Project, User, sequelize } = global.M
+    const { pageIndex, pageSize } = ctx.query
+    const offset = (pageIndex - 1) * pageSize
+    const limit = +pageSize
+    return sequelize
+      .transaction(async t => {
+        const projects = await Project.findAll({
+          attributes: {},
+          include: [
+            {
+              model: Permission,
+              required: false,
+              as: 'Permission',
+              where: {
+                uid: ctx.user.id
+              }
+            }
+          ],
+          limit,
+          offset,
           where: {
             status: STATUS_ENABLED
+          },
+          transaction: t
+        })
+
+        const projectIds = projects.map(p => p.id)
+
+        const users = await Permission.findAll({
+          attributes: {
+            include: []
+          },
+          include: [
+            {
+              model: User,
+              as: 'User'
+            }
+          ],
+          where: {
+            pid: projectIds
+          },
+          transaction: t
+        })
+
+        return projects.map(project => {
+          let members = []
+          let owner
+          let isOwner = false
+          users.forEach(pusers => {
+            pusers = pusers.dataValues
+            const user = {
+              userName: pusers.User.userName,
+              userNickName: pusers.User.userNickName,
+              userId: pusers.uid
+            }
+            if (pusers.pid === project.id) {
+              pusers.role === ROLE_OWNER ? (owner = user) : members.push(user)
+              isOwner = isOwner || (pusers.role === ROLE_OWNER && user.userId === ctx.user.id)
+            }
+          })
+
+          return {
+            id: project.dataValues.id,
+            projectName: project.dataValues.projectName,
+            description: project.dataValues.description,
+            owner: owner,
+            members: members,
+            isOwner
           }
-        }
-      ],
-      group: ['Project.id'],
-      where: {
-        uid: ctx.user.id
-      }
-    })
+        })
+      })
+      .then(res => res)
+      .catch(res => {
+        console.log(res)
+      })
   }
   saveProject(ctx) {
     const { Project, Permission, sequelize } = global.M
