@@ -3,21 +3,17 @@ const STATUS_DISABLED = 0
 const ROLE_OWNER = 1
 const ROLE_MEMBER = 2
 module.exports = class {
-  async getProjectList(opts = {}) {
+  async getProjectList(ctx) {
     const { Permission, Project, sequelize } = global.M
-    await Permission.findAll({
+    return Permission.findAll({
       attributes: {
-        include: [
-          [sequelize.col('Project.project_name'), 'name'],
-          [sequelize.col('Project.description'), 'desc']
-          // [sequelize.fn('count', sequelize.col('Project.ApiDoc.id')), 'apiNums']
-        ]
+        include: [[sequelize.fn('count'), 'count']]
       },
       include: [
         {
-          attributes: [],
           model: Project,
           as: 'Project',
+          required: false,
           where: {
             status: STATUS_ENABLED
           }
@@ -25,12 +21,13 @@ module.exports = class {
       ],
       group: ['Project.id'],
       where: {
-        uid: opts.id
+        uid: ctx.user.id
       }
     })
   }
-  saveProject(opts = {}, ctx) {
+  saveProject(ctx) {
     const { Project, Permission, sequelize } = global.M
+    const opts = ctx.request.body
     let pro = {}
     return sequelize
       .transaction(async t => {
@@ -43,7 +40,7 @@ module.exports = class {
           await Project.update(
             {
               projectName: opts.projectName,
-              description: opts.projectDesc
+              description: opts.description
             },
             {
               where: { id: opts.id },
@@ -54,7 +51,7 @@ module.exports = class {
           pro = await Project.create(
             {
               projectName: opts.projectName,
-              description: opts.projectDesc,
+              description: opts.description,
               uid: ctx.user.id,
               status: STATUS_ENABLED
             },
@@ -64,7 +61,7 @@ module.exports = class {
           )
         }
         const permissionList = []
-        permissionList.push({ pid: pro.id || opts.pid, role: ROLE_OWNER, uid: ctx.user.id })
+        permissionList.push({ pid: pro.id || opts.pid, role: ROLE_OWNER, uid: opts.owner })
         opts.members.forEach(member => {
           permissionList.push({ pid: pro.id || opts.pid, role: ROLE_MEMBER, uid: member })
         })
