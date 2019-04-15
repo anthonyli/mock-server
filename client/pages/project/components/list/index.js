@@ -13,12 +13,6 @@ class ListViews extends React.Component {
     super(props)
     this.state = {}
   }
-  // id: project.dataValues.id,
-  //           projectName: project.dataValues.,
-  //           description: project.dataValues.description,
-  //           owner: owner,
-  //           members: members,
-  //           isOwner
   columns = [
     {
       title: '编号',

@@ -1,15 +1,19 @@
 'use strict'
 module.exports = function(sequelize, DataTypes) {
-  var Category = sequelize.define(
-    'Category',
+  var Group = sequelize.define(
+    'Group',
     {
       id: {
         type: DataTypes.INTEGER(10).UNSIGNED,
         primaryKey: true,
         autoIncrement: true
       },
-      pid: DataTypes.INTEGER(10),
-      name: DataTypes.STRING(128),
+      groupName: {
+        type: DataTypes.STRING(128),
+        field: 'group_name'
+      },
+      description: DataTypes.STRING(500),
+      uid: DataTypes.INTEGER(10),
       status: DataTypes.INTEGER(1),
       createdTime: {
         type: DataTypes.DATE,
@@ -21,16 +25,16 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     {
-      tableName: 'doc_category'
+      tableName: 'doc_group'
     }
   )
 
-  Category.associate = function(models) {
-    models.Category.hasMany(models.Document, {
-      as: 'Document',
-      foreignKey: 'categoryId'
+  Group.associate = function(models) {
+    models.Group.hasMany(models.Permission, {
+      as: 'Permission',
+      foreignKey: 'gid'
     })
   }
 
-  return Category
+  return Group
 }

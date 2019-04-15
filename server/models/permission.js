@@ -11,6 +11,7 @@ module.exports = function(sequelize, DataTypes) {
       },
       uid: DataTypes.INTEGER(10),
       pid: DataTypes.INTEGER(10),
+      gid: DataTypes.INTEGER(10),
       role: DataTypes.INTEGER(1),
       createdTime: {
         type: DataTypes.DATE,
