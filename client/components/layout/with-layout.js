@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Layout from './layout'
-import withMenu from './with-menu'
+import Layout from './index'
 
 import {
   userInfo,
@@ -13,10 +12,8 @@ import {
   defaultLayout
 } from 'common/config'
 
-const { nicknameCn = '' } = userInfo
-
 const withLayout = (layout = defaultLayout) => WrappedComponent => {
-  const CustomerLayout = withMenu(Layout)
+  const CustomerLayout = Layout
 
   return class extends React.Component {
     static displayName = `${layout}Layout`
@@ -24,21 +21,9 @@ const withLayout = (layout = defaultLayout) => WrappedComponent => {
       location: PropTypes.object.isRequired
     }
     render() {
-      // 注意：此处使用的 location 是有 react-router Route 组件注入的 props
       const { location } = this.props
       return layout !== 'blank' ? (
-        <CustomerLayout
-          menus={menus}
-          logoutUrl={`${baseURI}/logout`}
-          userName={nicknameCn}
-          title={pageTitle}
-          appCode={appCode}
-          logo={require('../../assets/images/icon.png')}
-          responsive={responsive}
-          className={this.className}
-          layout={layout}
-          location={location}
-        >
+        <CustomerLayout location={location}>
           <WrappedComponent {...this.props} />
         </CustomerLayout>
       ) : (

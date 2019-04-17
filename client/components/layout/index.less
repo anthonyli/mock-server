@@ -1,0 +1,103 @@
+@import "~antd/dist/antd.less";
+body {
+    font-size: 14px;
+    background-color: #f8f8f8;
+}
+
+.m-container {
+    display: flex;
+    flex-direction: column;
+    .ant-layout-sider .ant-menu .ant-menu-item-selected {
+        background-color: #ecf6fd;
+    }
+    .ant-layout-sider .ant-menu .ant-menu-item {
+        margin: 0;
+    }
+    .cursor-pointer, .project-name {
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .ant-table-tbody .project-name {
+        color: #000;
+    }
+    .ant-table-row.noExpandIcon > .ant-table-row-expand-icon-cell > .ant-table-row-expand-icon{
+        visibility: hidden;
+    }
+    .ant-table-thead > tr > th, .ant-table-tbody > tr > td{
+        padding: 12px 8px;
+    }
+    .ant-table-tbody > tr.ant-table-expanded-row > td {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    .ant-table-tbody > tr.ant-table-expanded-row > td:last-child {
+        padding: 0 ;
+        border-radius: 0;
+    }
+    .ant-table-expand-icon-th, .ant-table-row-expand-icon-cell{
+        min-width: 30px;
+        width: 30px;
+    }
+    .ant-table-tbody > tr.ant-table-expanded-row > td,
+    .ant-table-tbody > tr.ant-table-expanded-row:hover > td {
+        background: #fbfbfb;
+    }
+    .ant-table-tbody .ant-table-row:nth-child(2n+2) {
+        background: transparent;
+    }
+    .sub-table tbody.ant-table-tbody > .ant-table-row:last-child > td{
+        border-bottom: none;
+    }
+    .sub-table .ant-table-small{
+        border:none;
+    }
+    .sub-table .ant-table-tbody{
+        background: transparent;
+    }
+    .text-muted {
+        color: #919191;
+    }
+    .text-label{
+        padding: 4px 12px;
+        line-height: 1;
+        display: inline-block;
+        border-radius: 15px;
+    }
+    .text-label.label-primary{
+        border: 1px solid #108ee9;
+        background-color: #ecf6fd;
+        color: #108ee9;
+    }
+    .text-label.label-danger{
+        border: 1px solid #f46e65;
+        background-color: #fef0ef;
+        color: #f46e65;
+    }
+    .text-label.label-default{
+        border: 1px solid #919191;
+        background-color: #e9e9e9;
+        color: #5a5a5a;
+    }
+    .m-header {
+        background: linear-gradient(to right, #404E67 0, #6F85AD 100%);
+        height: 56px;
+    }
+    .m-sider {
+        background: #fff;
+        border-right: 1px solid rgb(207, 216, 224);
+    }
+    .white-box {
+        background: #fff;
+        padding: 20px;
+        border: 1px solid #e5ebec;
+        border-radius: 4px;
+    }
+    .ant-badge {
+        left: 6px;
+        top: -2px;
+    }
+    .ant-select,
+    .ant-select-dropdown {
+        font-size: 14px !important
+    }
+}

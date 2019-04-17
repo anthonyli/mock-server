@@ -1,0 +1,67 @@
+.m-nav {
+    font-size: 14px;
+    &:after {
+        content: '';
+        display: table;
+        clear: both;
+    }
+    a.logo {
+        height: 56px;
+        padding: 8px 12px;
+        width: 180px;
+        display: inline-block;
+        text-align: center;
+        background: rgba(0, 0, 0, 0.2);
+        img {
+            width: 150px;
+        }
+    }
+    .m-select {
+        min-width: 100px;
+        margin: auto 15px;
+        top: -16px;
+    }
+    .user {
+        float: right;
+        display: flex;
+        float: right;
+        height: 56px;
+        line-height: 56px;
+        align-items: center;
+        line-height: normal;
+        >a {
+            display: flex;
+        }
+    }
+    .ant-select-selection {
+        color: #fff !important;
+        background: transparent !important;
+        border: none !important;
+    }
+    .ant-select-arrow {
+        color: #fff !important;
+        opacity: 1 !important;
+    }
+    .ant-select-selection__placeholder {
+        color: #fff;
+        font-size: 16px;
+    }
+    .ant-select-focused .ant-select-selection,
+    .ant-select-selection:focus,
+    .ant-select-selection:active {
+        border-color: #49a9ee;
+        outline: 0;
+        box-shadow: 0 0 0 2px transparent;
+    }
+    .login-menu {
+        display: inline-block;
+        height: 56px;
+        padding: 0px 10px;
+        line-height: 56px;
+        text-align: center;
+        margin-left: 20px;
+        >a {
+            color: #fff;
+        }
+    }
+}
