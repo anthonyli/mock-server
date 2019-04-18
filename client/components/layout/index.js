@@ -4,8 +4,10 @@ import './index.less'
 
 import { Layout, Menu, Breadcrumb, Icon } from 'antd'
 
+import Footer from './footer'
+
 const { SubMenu } = Menu
-const { Header, Content, Footer, Sider } = Layout
+const { Header, Content, Sider } = Layout
 
 class LayoutApp extends Component {
   constructor(props) {
@@ -36,7 +38,7 @@ class LayoutApp extends Component {
               <Menu.Item key="3">nav 3</Menu.Item>
             </Menu>
           </Header>
-          <Content style={{ padding: '0 50px' }}>
+          <Content style={{ padding: '0 20px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
               <Breadcrumb.Item>Home</Breadcrumb.Item>
               <Breadcrumb.Item>List</Breadcrumb.Item>
@@ -97,7 +99,7 @@ class LayoutApp extends Component {
               <Content style={{ padding: '0 24px', minHeight: 280 }}>{children}</Content>
             </Layout>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+          <Footer />
         </Layout>
       </div>
     )

@@ -2,15 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Layout from './index'
 
-import {
-  userInfo,
-  menus,
-  appCode,
-  pageTitle,
-  baseURI,
-  responsive,
-  defaultLayout
-} from 'common/config'
+import { defaultLayout } from 'common/config'
 
 const withLayout = (layout = defaultLayout) => WrappedComponent => {
   const CustomerLayout = Layout
@@ -32,10 +24,7 @@ const withLayout = (layout = defaultLayout) => WrappedComponent => {
     }
 
     get className() {
-      let className = `top-layout top-layout-${layout}`
-      if (responsive) {
-        className += ' top-layout-responsive'
-      }
+      const className = `layout layout-${layout}`
 
       return className
     }
