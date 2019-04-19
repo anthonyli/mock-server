@@ -1,7 +1,7 @@
 appCode: mapi
 
 # 系统的标题
-pageTitle: Mock文档
+pageTitle: 文档中心
 
 # 主题
 theme: antd/diy

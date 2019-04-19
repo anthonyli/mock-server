@@ -2,6 +2,13 @@
 const User = require('daos/user')
 const jwt = require('jsonwebtoken')
 const secret = require('utils/secret.json')
+
+const expireDate = day => {
+  let date = new Date()
+  date.setTime(date.getTime() + day * 86400000)
+  return date
+}
+
 module.exports = async ctx => {
   const user = new User()
 
@@ -21,6 +28,10 @@ module.exports = async ctx => {
       }
       ctx.user = { ...userToken }
       const token = jwt.sign(userToken, secret.sign, { expiresIn: '7 days' }) // 签发token
+      ctx.cookies.set('_m_token', 'Bearer ' + token, {
+        expires: expireDate(7),
+        httpOnly: true
+      })
       ctx.body = {
         code: 0,
         data: {

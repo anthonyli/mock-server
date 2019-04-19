@@ -9,7 +9,7 @@ const verify = util.promisify(jwt.verify)
 module.exports = function() {
   return async function(ctx, next) {
     try {
-      const token = ctx.headers.authorization // 获取jwt
+      const token = ctx.headers.authorization || ctx.cookies.get('_m_token') // 获取jwt
       if (token) {
         let payload
         try {

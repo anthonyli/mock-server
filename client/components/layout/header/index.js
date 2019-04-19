@@ -1,89 +1,157 @@
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import PropTypes from 'prop-types'
-import { Select, Icon, Input, Dropdown, Menu } from 'antd'
 import './index.less'
+import React, { PureComponent as Component } from 'react'
+import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
+import { Icon, Layout, Menu, Dropdown, Tooltip } from 'antd'
 
-const { Option, OptGroup } = Select
-const Search = Input.Search
+const { Header } = Layout
 
-const menu = (
-  <Menu>
-    <Menu.Item key="0">
-      <a href="/myLogout" role="menuitem" tabIndex="-1">
-        <Icon type="logout" /> 退出
+let HeaderMenu = {
+  user: {
+    path: '/user/profile',
+    name: '个人中心',
+    icon: 'user',
+    adminFlag: false
+  },
+  solution: {
+    path: '/user/list',
+    name: '用户管理',
+    icon: 'solution',
+    adminFlag: true
+  }
+}
+
+const MenuUser = props => (
+  <Menu theme="dark" className="user-menu">
+    {Object.keys(HeaderMenu).map(key => {
+      let item = HeaderMenu[key]
+      const isAdmin = props.role === 'admin'
+      if (item.adminFlag && !isAdmin) {
+        return null
+      }
+      return (
+        <Menu.Item key={key}>
+          {item.name === '个人中心' ? (
+            <Link to={item.path + `/${props.uid}`}>
+              <Icon type={item.icon} />
+              {item.name}
+            </Link>
+          ) : (
+            <Link to={item.path}>
+              <Icon type={item.icon} />
+              {item.name}
+            </Link>
+          )}
+        </Menu.Item>
+      )
+    })}
+    <Menu.Item key="9">
+      <a onClick={props.logout}>
+        <Icon type="logout" />
+        退出
       </a>
     </Menu.Item>
   </Menu>
 )
 
-class Header extends Component {
+MenuUser.propTypes = {
+  role: PropTypes.string,
+  uid: PropTypes.number,
+  logout: PropTypes.func
+}
+
+const ToolUser = props => {
+  // let imageUrl = props.imageUrl ? props.imageUrl : `/api/user/avatar?uid=${props.uid}`
+  return (
+    <div className="user-toolbar">
+      <Tooltip placement="bottom" title={'我的关注'}>
+        <Link className="toolbar-li" to="/follow">
+          <Icon className="dropdown-link" theme="filled" style={{ fontSize: 16 }} type="star" />
+        </Link>
+      </Tooltip>
+      <Tooltip placement="bottom" title={'新建项目'}>
+        <Link className="toolbar-li" to="/add-project">
+          <Icon
+            className="dropdown-link"
+            theme="filled"
+            style={{ fontSize: 16 }}
+            type="plus-circle"
+          />
+        </Link>
+      </Tooltip>
+      {/* <Tooltip placement="bottom" title={'使用文档'}>
+        <a
+          className="toolbar-li"
+          target="_blank"
+          href="https://yapi.ymfe.org"
+          rel="noopener noreferrer"
+        >
+          <Icon className="dropdown-link" style={{ fontSize: 16 }} type="question-circle" />
+        </a>
+      </Tooltip> */}
+      <Dropdown
+        className="toolbar-li"
+        placement="bottomRight"
+        trigger={['click']}
+        overlay={
+          <MenuUser
+            user={props.user}
+            msg={props.msg}
+            uid={props.uid}
+            role={'admin'}
+            relieveLink={props.relieveLink}
+            logout={props.logout}
+          />
+        }
+      >
+        <a className="dropdown-link">
+          <span className="avatar-image">
+            <Icon style={{ fontSize: 16 }} type="user" />
+          </span>
+          <span className="name">
+            <Icon type="down" />
+          </span>
+        </a>
+      </Dropdown>
+    </div>
+  )
+}
+ToolUser.propTypes = {
+  user: PropTypes.string,
+  msg: PropTypes.string,
+  uid: PropTypes.number,
+  relieveLink: PropTypes.func,
+  logout: PropTypes.func
+}
+
+export default class HeaderCom extends Component {
   constructor(props) {
     super(props)
     this.state = {}
   }
   static propTypes = {
-    nicknameCN: PropTypes.string,
-    list: PropTypes.array,
-    productid: PropTypes.string,
-    handleSelectProduct: PropTypes.func,
-    handleDoSearch: PropTypes.func
+    router: PropTypes.object
   }
 
   render() {
-    const { nicknameCN, list, productid, handleSelectProduct, handleDoSearch } = this.props
+    const { user, msg, uid, role, studyTip, imageUrl } = this.props
     return (
-      <div className="m-header">
-        <div className="m-nav">
-          <Link to="/" className="logo">
-            <img
-              src={require('common/styles/images/logo-1.png')}
-              alt="homepage"
-              className="dark-logo"
-            />
+      <Header className="header-box">
+        <div className="left">
+          <Link onClick={this.relieveLink} to="/group" className="logo">
+            <div className="href" />
           </Link>
-          <Select
-            className="m-select"
-            placeholder="项目"
-            size="large"
-            value={`${productid}`}
-            onChange={handleSelectProduct}
-            dropdownMatchSelectWidth={false}
-          >
-            <OptGroup label="没有你的项目？">
-              <Option value="new">
-                <Icon type="plus-circle" /> 新建项目
-              </Option>
-            </OptGroup>
-            <OptGroup label="我的项目">
-              {list.map((item, index) => {
-                return (
-                  <Option key={index} value={`${item.id}`}>
-                    {item.name}
-                  </Option>
-                )
-              })}
-            </OptGroup>
-          </Select>
-          <div className="user">
-            <Search
-              placeholder="按标题搜索"
-              style={{ width: 150 }}
-              onSearch={value => handleDoSearch(value, productid)}
-            />
-            <div className="login-menu">
-              <Dropdown overlay={menu} trigger={['click']}>
-                <a className="ant-dropdown-link" href="#">
-                  <Icon type="user" /> {nicknameCN}
-                  <Icon type="down" />
-                </a>
-              </Dropdown>
-            </div>
-          </div>
+          <span className="name">文档中心</span>
         </div>
-      </div>
+
+        <div className="user-toolbar">
+          <ToolUser
+            {...{ studyTip, user, msg, uid, role, imageUrl }}
+            relieveLink={this.relieveLink}
+            logout={this.logout}
+          />
+        </div>
+      </Header>
     )
   }
 }
-
-export default Header

@@ -4,10 +4,6 @@ module.exports = async ctx => {
   const user = new User()
   const filter = {}
 
-  // filter.id = {
-  //   ne: 1
-  // }
-
   const userData = await user.getUserList(filter)
 
   const data = userData.map(item => {

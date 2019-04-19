@@ -7,11 +7,12 @@ const {
   layout,
   smallScreen
 } = require('utils/config')
+const User = require('daos/user')
 
 const env = process.env.NODE_ENV || 'development'
 
 module.exports = async ctx => {
-  const initState = getInitState()
+  const initState = await getInitState(ctx)
   const config = await getConfig(ctx)
 
   await render(ctx)('index', {
@@ -23,8 +24,22 @@ module.exports = async ctx => {
 }
 
 // 提供给前台 redux 作为初始化 state
-function getInitState() {
-  return {}
+async function getInitState(ctx) {
+  const user = new User()
+  let allUsers = await user.findAll()
+  allUsers = allUsers.map(item => {
+    return {
+      id: item.id,
+      userName: item.userName,
+      userNickName: item.userNickName
+    }
+  })
+  return {
+    allUsers,
+    user: {
+      ...ctx.user
+    }
+  }
 }
 
 // 获取全局配置

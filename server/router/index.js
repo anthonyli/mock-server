@@ -9,7 +9,9 @@ const router = new Router()
 
 // 首页
 router
-  .get('/', home)
+  .get('/', async (ctx, next) => {
+    await home(ctx)
+  })
   // 路由定义
   .use(customRouter.routes())
   // 自动代理到 java 和 首页渲染

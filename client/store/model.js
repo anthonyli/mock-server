@@ -2,7 +2,8 @@ import im from 'immutable'
 import axios from 'common/axios'
 
 const initialState = im.fromJS({
-  regionsDate: []
+  regionsDate: [],
+  ...window.__INITIAL_STATE__
 })
 
 export default {
