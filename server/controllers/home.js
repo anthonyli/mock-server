@@ -1,12 +1,4 @@
-const {
-  baseURI,
-  appCode,
-  apiPrefix,
-  pageTitle,
-  version,
-  layout,
-  smallScreen
-} = require('utils/config')
+const { baseURI, appCode, apiPrefix, pageTitle, version } = require('utils/config')
 const User = require('daos/user')
 
 const env = process.env.NODE_ENV || 'development'
@@ -44,7 +36,6 @@ async function getInitState(ctx) {
 
 // 获取全局配置
 async function getConfig(ctx) {
-  let userInfo = {}
   return {
     // 基础 URI
     baseURI,
@@ -52,13 +43,9 @@ async function getConfig(ctx) {
     apiPrefix,
     // 系统编号
     appCode,
-    // 用户信息
-    userInfo,
     pageTitle,
     env,
-    version,
-    layout,
-    smallScreen
+    version
   }
 }
 

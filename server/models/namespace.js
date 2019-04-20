@@ -1,16 +1,16 @@
 'use strict'
 module.exports = function(sequelize, DataTypes) {
-  var Group = sequelize.define(
-    'Group',
+  var Namespace = sequelize.define(
+    'Namespace',
     {
       id: {
         type: DataTypes.INTEGER(10).UNSIGNED,
         primaryKey: true,
         autoIncrement: true
       },
-      groupName: {
+      nameSpace: {
         type: DataTypes.STRING(128),
-        field: 'group_name'
+        field: 'name_space'
       },
       description: DataTypes.STRING(500),
       uid: DataTypes.INTEGER(10),
@@ -25,16 +25,16 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     {
-      tableName: 'doc_group'
+      tableName: 'doc_namespace'
     }
   )
 
-  Group.associate = function(models) {
-    models.Group.hasMany(models.Permission, {
+  Namespace.associate = function(models) {
+    models.Namespace.hasMany(models.Permission, {
       as: 'Permission',
-      foreignKey: 'gid'
+      foreignKey: 'nid'
     })
   }
 
-  return Group
+  return Namespace
 }

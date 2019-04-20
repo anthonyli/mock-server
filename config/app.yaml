@@ -6,14 +6,6 @@ pageTitle: 文档中心
 # 主题
 theme: antd/diy
 
-# 默认布局方式
-layout: basic
-
-islogin: true
-
-# 小屏模式分界点
-smallScreen: 576
-
 # api前缀
 # 由于是单页应用，使用 HTML5 history 模式，需要对页面请求使用 主页 渲染
 apiPrefix: /api
@@ -24,7 +16,6 @@ baseURI: "/mapi"
 # 后端 Java 服务接口地址
 backendMap:
   development: http://localhost:9005/mock/
-  # development: http://www.baidu.com
 
 server:
   port: 8080
