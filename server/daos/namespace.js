@@ -3,97 +3,24 @@ const STATUS_DISABLED = 0
 const ROLE_OWNER = 1
 const ROLE_MEMBER = 2
 module.exports = class {
-  getProjectList(ctx) {
-    const { Namespace, Permission, Project, User, sequelize } = global.M
-    const { pageIndex, pageSize } = ctx.query
-    const offset = (pageIndex - 1) * pageSize
-    const limit = +pageSize
-    return sequelize
-      .transaction(async t => {
-        const spaces = await Namespace.findAll({
-          attributes: {},
-          include: [
-            {
-              model: Permission,
-              required: false,
-              as: 'Permission',
-              where: {
-                uid: ctx.user.id
-              }
-            }
-          ],
-          limit,
-          offset,
+  getSpaceList(ctx) {
+    const { Namespace, Permission } = global.M
+    return Namespace.findAll({
+      attributes: {},
+      include: [
+        {
+          model: Permission,
+          required: false,
+          as: 'Permission',
           where: {
-            status: STATUS_ENABLED
-          },
-          transaction: t
-        })
-
-        const spaceIds = spaces.map(p => p.id)
-
-        return Permission.findAll({
-          attributes: {
-            include: []
-          },
-          include: [
-            {
-              model: Project,
-              as: 'Project'
-            }
-          ],
-          where: {
-            nid: spaceIds
-          },
-          transaction: t
-        })
-        // const users = await Permission.findAll({
-        //   attributes: {
-        //     include: []
-        //   },
-        //   include: [
-        //     {
-        //       model: User,
-        //       as: 'User'
-        //     }
-        //   ],
-        //   where: {
-        //     pid: projectIds
-        //   },
-        //   transaction: t
-        // })
-
-        // return projects.map(project => {
-        //   let members = []
-        //   let owner
-        //   let isOwner = false
-        //   users.forEach(pusers => {
-        //     pusers = pusers.dataValues
-        //     const user = {
-        //       userName: pusers.User.userName,
-        //       userNickName: pusers.User.userNickName,
-        //       userId: pusers.uid
-        //     }
-        //     if (pusers.pid === project.id) {
-        //       pusers.role === ROLE_OWNER ? (owner = user) : members.push(user)
-        //       isOwner = isOwner || (pusers.role === ROLE_OWNER && user.userId === ctx.user.id)
-        //     }
-        //   })
-
-        //   return {
-        //     id: project.dataValues.id,
-        //     projectName: project.dataValues.projectName,
-        //     description: project.dataValues.description,
-        //     owner: owner,
-        //     members: members,
-        //     isOwner
-        //   }
-        // })
-      })
-      .then(res => res)
-      .catch(res => {
-        console.log(res)
-      })
+            uid: ctx.user.id
+          }
+        }
+      ],
+      where: {
+        status: STATUS_ENABLED
+      }
+    })
   }
   saveNameSpace(ctx) {
     const { Namespace, Permission, sequelize } = global.M
@@ -131,8 +58,8 @@ module.exports = class {
           )
         }
         const permissionList = []
-        opts.owner.forEach(member => {
-          permissionList.push({ nid: space.id || opts.nid, role: ROLE_OWNER, uid: opts.owner })
+        opts.owner.forEach(owner => {
+          permissionList.push({ nid: space.id || opts.nid, role: ROLE_OWNER, uid: owner })
         })
         opts.members.forEach(member => {
           permissionList.push({ nid: space.id || opts.nid, role: ROLE_MEMBER, uid: member })

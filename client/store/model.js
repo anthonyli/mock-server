@@ -2,23 +2,21 @@ import im from 'immutable'
 import axios from 'common/axios'
 
 const initialState = im.fromJS({
-  regionsDate: [],
+  spacelist: [],
   ...window.__INITIAL_STATE__
 })
 
 export default {
   state: initialState,
   reducers: {
-    setRegionsDate: (state, payload) => {
-      return state.set('regionsDate', im.fromJS(payload))
+    setSpaceList: (state, payload) => {
+      return state.set('spacelist', im.fromJS(payload))
     }
   },
   effects: {
-    // 查询行政区域
-    queryRegions(data, rootState) {
-      axios.post('/regions/query').then(res => {
-        this.setRegionsDate(res)
-      })
+    async querySpace(data, rootState) {
+      const space = await axios.post('/space/list')
+      this.setSpaceList(space)
     }
   }
 }

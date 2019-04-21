@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './index.less'
+import { connect } from 'react-redux'
 
 import { Layout } from 'antd'
 
@@ -14,18 +15,26 @@ class LayoutApp extends Component {
     this.state = {}
   }
   static propTypes = {
-    children: PropTypes.object
+    children: PropTypes.object,
+    common: PropTypes.object,
+    location: PropTypes.object,
+    action: PropTypes.object
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.props.action.querySpace()
+  }
 
   render() {
-    const { children } = this.props
+    const { children, common, location } = this.props
+    const { spacelist } = common.toJS()
     return (
       <div className="m-container">
         <Layout>
           <Header />
-          <Content>{children}</Content>
+          <Content location={location} spacelist={spacelist}>
+            {children}
+          </Content>
           <Footer />
         </Layout>
       </div>
@@ -33,4 +42,22 @@ class LayoutApp extends Component {
   }
 }
 
-export default LayoutApp
+function mapStateToProps(state) {
+  const common = state.common
+  return {
+    common
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    action: {
+      ...dispatch.common
+    }
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LayoutApp)

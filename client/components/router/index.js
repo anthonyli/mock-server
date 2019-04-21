@@ -15,7 +15,7 @@ export default class CoreRouter extends React.PureComponent {
     return (
       <Switch>
         {this.routes}
-        <Redirect to="/project" />
+        <Redirect to="/namespace" />
       </Switch>
     )
   }
