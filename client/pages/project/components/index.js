@@ -6,12 +6,13 @@ import List from './list'
 export default class UserPage extends React.Component {
   static propTypes = {
     project: PropTypes.object,
+    match: PropTypes.object,
     action: PropTypes.object
   }
 
   componentDidMount() {
-    const { query } = this.props.action
-    query()
+    const { match, action } = this.props
+    action.query({ nid: match.params.id })
   }
 
   render() {

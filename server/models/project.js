@@ -14,6 +14,7 @@ module.exports = function(sequelize, DataTypes) {
       },
       description: DataTypes.STRING(500),
       uid: DataTypes.INTEGER(10),
+      nid: DataTypes.INTEGER(10),
       status: DataTypes.INTEGER(1),
       createdTime: {
         type: DataTypes.DATE,
@@ -37,6 +38,10 @@ module.exports = function(sequelize, DataTypes) {
     models.Project.hasMany(models.Permission, {
       as: 'Permission',
       foreignKey: 'pid'
+    })
+    models.Project.belongsTo(models.Namespace, {
+      as: 'Namespace',
+      foreignKey: 'nid'
     })
     models.Project.hasMany(models.Category, {
       as: 'Category',

@@ -22,7 +22,8 @@ class LayoutApp extends Component {
   }
 
   componentDidMount() {
-    this.props.action.querySpace()
+    const { action } = this.props
+    action.querySpace()
   }
 
   render() {

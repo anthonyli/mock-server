@@ -32,6 +32,10 @@ module.exports = function(sequelize, DataTypes) {
       as: 'Project',
       foreignKey: 'pid'
     })
+    models.Permission.belongsTo(models.Namespace, {
+      as: 'Namespace',
+      foreignKey: 'nid'
+    })
     models.Permission.belongsTo(models.User, {
       as: 'User',
       foreignKey: 'uid'

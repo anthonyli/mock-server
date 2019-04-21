@@ -1,7 +1,7 @@
 import './index.less'
 import React, { PureComponent as Component } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 
 import { Layout, Menu, Breadcrumb } from 'antd'
 
@@ -15,6 +15,7 @@ class ContentView extends Component {
 
   static propTypes = {
     children: PropTypes.object,
+    location: PropTypes.object,
     spacelist: PropTypes.array
   }
 
@@ -23,35 +24,41 @@ class ContentView extends Component {
   }
 
   render() {
-    const { children, spacelist } = this.props
+    const { children, spacelist, location } = this.props
+    const defaultSelectedKeys = location.pathname.split('/')
+
     return (
       <Content className="content-wrapper">
-        <Layout className="con-layout">
-          <Sider width={220}>
-            <Menu
-              onClick={this.onClickMenu}
-              mode="inline"
-              defaultSelectedKeys={['1']}
-              style={{ height: '100%' }}
-            >
-              {spacelist.map(item => {
-                return (
-                  <Menu.Item key={item.id}>
-                    <Link to={`/namespace/${item.id}`}>{item.nameSpace}</Link>
-                  </Menu.Item>
-                )
-              })}
-            </Menu>
-          </Sider>
-          <Content className="layout-con">
-            <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>Home</Breadcrumb.Item>
-              <Breadcrumb.Item>List</Breadcrumb.Item>
-              <Breadcrumb.Item>App</Breadcrumb.Item>
-            </Breadcrumb>
-            {children}
-          </Content>
-        </Layout>
+        {defaultSelectedKeys.length === 3 ? (
+          <Layout className="con-layout">
+            <Sider width={220}>
+              <Menu
+                onClick={this.onClickMenu}
+                mode="inline"
+                defaultSelectedKeys={[defaultSelectedKeys[2]]}
+                style={{ height: '100%' }}
+              >
+                {spacelist.map(item => {
+                  return (
+                    <Menu.Item key={item.id}>
+                      <Link to={`/namespace/${item.id}`}>{item.nameSpace}</Link>
+                    </Menu.Item>
+                  )
+                })}
+              </Menu>
+            </Sider>
+            <Content className="layout-con">
+              <Breadcrumb style={{ margin: '16px 0' }}>
+                <Breadcrumb.Item>Home</Breadcrumb.Item>
+                <Breadcrumb.Item>List</Breadcrumb.Item>
+                <Breadcrumb.Item>App</Breadcrumb.Item>
+              </Breadcrumb>
+              {children}
+            </Content>
+          </Layout>
+        ) : (
+          spacelist.length && <Redirect to={`/namespace/${spacelist[0].id}`} />
+        )}
       </Content>
     )
   }

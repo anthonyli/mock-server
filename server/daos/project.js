@@ -5,27 +5,34 @@ const ROLE_MEMBER = 2
 module.exports = class {
   getProjectList(ctx) {
     const { Permission, Project, User, sequelize } = global.M
-    const { pageIndex, pageSize } = ctx.query
+    const { pageIndex, pageSize, nid } = ctx.query
     const offset = (pageIndex - 1) * pageSize
     const limit = +pageSize
     return sequelize
       .transaction(async t => {
-        const projects = await Project.findAll({
-          attributes: {},
+        const projects = await Permission.findAll({
+          attributes: [
+            [sequelize.col('Project.project_name'), 'projectName'],
+            [sequelize.col('Project.description'), 'description'],
+            [sequelize.col('Project.id'), 'id'],
+            [sequelize.fn('count', sequelize.col('Project.id')), 'apiNums']
+          ],
           include: [
             {
-              model: Permission,
-              required: false,
-              as: 'Permission',
+              attributes: [],
+              model: Project,
+              as: 'Project',
               where: {
-                uid: ctx.user.id
+                status: STATUS_ENABLED
               }
             }
           ],
           limit,
           offset,
+          group: ['Project.id'],
           where: {
-            status: STATUS_ENABLED
+            nid: Number(nid),
+            uid: ctx.user.id
           },
           transaction: t
         })
@@ -75,7 +82,10 @@ module.exports = class {
           }
         })
       })
-      .then(res => res)
+      .then(res => {
+        console.log(res)
+        return res
+      })
       .catch(res => {
         console.log(res)
       })

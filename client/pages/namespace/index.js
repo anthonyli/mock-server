@@ -8,7 +8,6 @@ class Namespace extends Component {
     return (
       <Switch>
         <Route component={List} path="/namespace/:id" />
-        <Route component={List} path="/:id" />
       </Switch>
     )
   }
