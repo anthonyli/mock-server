@@ -4,21 +4,27 @@ const ROLE_OWNER = 1
 const ROLE_MEMBER = 2
 module.exports = class {
   getSpaceList(ctx) {
-    const { Namespace, Permission } = global.M
-    return Namespace.findAll({
-      attributes: {},
+    const { Namespace, Permission, sequelize } = global.M
+    return Permission.findAll({
+      attributes: [
+        [sequelize.col('Namespace.name_space'), 'nameSpace'],
+        [sequelize.col('Namespace.description'), 'description'],
+        [sequelize.col('Namespace.id'), 'id'],
+        [sequelize.fn('count', sequelize.col('Namespace.id')), 'apiNums']
+      ],
       include: [
         {
-          model: Permission,
-          required: false,
-          as: 'Permission',
+          attributes: [],
+          model: Namespace,
+          as: 'Namespace',
           where: {
-            uid: ctx.user.id
+            status: STATUS_ENABLED
           }
         }
       ],
+      group: ['Namespace.id'],
       where: {
-        status: STATUS_ENABLED
+        uid: ctx.user.id
       }
     })
   }

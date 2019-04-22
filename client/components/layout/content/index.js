@@ -15,7 +15,7 @@ class ContentView extends Component {
 
   static propTypes = {
     children: PropTypes.object,
-    location: PropTypes.object,
+    activeMenu: PropTypes.any,
     spacelist: PropTypes.array
   }
 
@@ -24,24 +24,25 @@ class ContentView extends Component {
   }
 
   render() {
-    const { children, spacelist, location } = this.props
-    const defaultSelectedKeys = location.pathname.split('/')
+    const { children, spacelist, activeMenu } = this.props
+    const defaultSelectedKeys = localStorage.getItem('activeMenu') || activeMenu
+    console.log(defaultSelectedKeys, '====')
 
     return (
       <Content className="content-wrapper">
-        {defaultSelectedKeys.length === 3 ? (
+        {spacelist.length !== 0 && (
           <Layout className="con-layout">
             <Sider width={220}>
               <Menu
                 onClick={this.onClickMenu}
                 mode="inline"
-                defaultSelectedKeys={[defaultSelectedKeys[2]]}
+                defaultSelectedKeys={[`${defaultSelectedKeys}`]}
                 style={{ height: '100%' }}
               >
                 {spacelist.map(item => {
                   return (
-                    <Menu.Item key={item.id}>
-                      <Link to={`/namespace/${item.id}`}>{item.nameSpace}</Link>
+                    <Menu.Item key={`${item.id}`}>
+                      <Link to={`/namespace`}>{item.nameSpace}</Link>
                     </Menu.Item>
                   )
                 })}
@@ -56,8 +57,6 @@ class ContentView extends Component {
               {children}
             </Content>
           </Layout>
-        ) : (
-          spacelist.length && <Redirect to={`/namespace/${spacelist[0].id}`} />
         )}
       </Content>
     )

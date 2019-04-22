@@ -17,7 +17,6 @@ class LayoutApp extends Component {
   static propTypes = {
     children: PropTypes.object,
     common: PropTypes.object,
-    location: PropTypes.object,
     action: PropTypes.object
   }
 
@@ -27,13 +26,13 @@ class LayoutApp extends Component {
   }
 
   render() {
-    const { children, common, location, action } = this.props
-    const { spacelist } = common.toJS()
+    const { children, common, action } = this.props
+    const { spacelist, activeMenu } = common.toJS()
     return (
       <div className="m-container">
         <Layout>
           <Header action={action} />
-          <Content location={location} spacelist={spacelist}>
+          <Content activeMenu={activeMenu} spacelist={spacelist}>
             {children}
           </Content>
           <Footer />

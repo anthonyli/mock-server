@@ -33,6 +33,7 @@ export default {
     },
     logout(data, rootState) {
       localStorage.removeItem('_m_token')
+      localStorage.removeItem('activeMenu')
       this.isLogin(false)
     }
   }

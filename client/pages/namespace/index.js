@@ -7,7 +7,7 @@ class Namespace extends Component {
   render() {
     return (
       <Switch>
-        <Route component={List} path="/namespace/:id" />
+        <Route component={List} path="/namespace" />
       </Switch>
     )
   }

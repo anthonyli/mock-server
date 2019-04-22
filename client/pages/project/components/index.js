@@ -6,13 +6,12 @@ import List from './list'
 export default class UserPage extends React.Component {
   static propTypes = {
     project: PropTypes.object,
-    match: PropTypes.object,
     action: PropTypes.object
   }
 
   componentDidMount() {
-    const { match, action } = this.props
-    action.query({ nid: match.params.id })
+    const { action } = this.props
+    action.query({ nid: localStorage.getItem('activeMenu') })
   }
 
   render() {
