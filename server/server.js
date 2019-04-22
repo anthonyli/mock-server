@@ -64,7 +64,7 @@ app.use(checkToken())
 
 app.use(
   jwt({ secret: secret.sign }).unless({
-    path: [/^(?!\/mapi\/api)/, /^\/mapi\/api\/user\/login/]
+    path: [/^(?!\/mapi\/api)/, /^\/mapi\/api\/user\/login/, /^\/mapi\/api\/user\/register/]
   })
 )
 

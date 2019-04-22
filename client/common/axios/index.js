@@ -61,7 +61,7 @@ instance.postForm = function(url, data, config = {}) {
 }
 
 instance.interceptors.request.use(function(config) {
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem('_m_token')
   if (token) {
     config.headers['Authorization'] = 'Bearer ' + token
   }

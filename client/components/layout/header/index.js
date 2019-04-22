@@ -134,7 +134,7 @@ export default class HeaderCom extends Component {
   }
 
   render() {
-    const { user, msg, uid, role, studyTip, imageUrl } = this.props
+    const { user, msg, uid, role, studyTip, imageUrl, action } = this.props
     return (
       <Header className="header-box">
         <div className="left">
@@ -148,7 +148,7 @@ export default class HeaderCom extends Component {
           <ToolUser
             {...{ studyTip, user, msg, uid, role, imageUrl }}
             relieveLink={this.relieveLink}
-            logout={this.logout}
+            logout={action.logout}
           />
         </div>
       </Header>

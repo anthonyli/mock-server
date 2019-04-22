@@ -1,4 +1,3 @@
-// 获取用户列表
 const User = require('daos/user')
 const jwt = require('jsonwebtoken')
 const secret = require('utils/secret.json')

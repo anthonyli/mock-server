@@ -27,12 +27,12 @@ class LayoutApp extends Component {
   }
 
   render() {
-    const { children, common, location } = this.props
+    const { children, common, location, action } = this.props
     const { spacelist } = common.toJS()
     return (
       <div className="m-container">
         <Layout>
-          <Header />
+          <Header action={action} />
           <Content location={location} spacelist={spacelist}>
             {children}
           </Content>
@@ -53,7 +53,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     action: {
-      ...dispatch.common
+      ...dispatch.common,
+      ...dispatch.user
     }
   }
 }
