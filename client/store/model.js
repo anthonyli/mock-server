@@ -23,6 +23,8 @@ export default {
       if (!localStorage.getItem('activeMenu')) {
         this.setActiveMenu(space[0].id)
         localStorage.setItem('activeMenu', space[0].id)
+      } else {
+        this.setActiveMenu(localStorage.getItem('activeMenu'))
       }
       this.setSpaceList(space)
     }

@@ -91,8 +91,9 @@ instance.interceptors.response.use(
       if (data) {
         // token过期
         if (data.code === 1021) {
-          localStorage.clear()
-          window.location.reload()
+          localStorage.removeItem('_m_token')
+          localStorage.removeItem('activeMenu')
+          window.location = '/mapi/user/login'
           return
         }
       }
