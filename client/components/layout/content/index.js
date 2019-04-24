@@ -28,7 +28,6 @@ class ContentView extends Component {
   componentWillReceiveProps(props) {
     const editData = props.activeMenu
     const oldeditData = this.props.activeMenu
-    debugger
     if (editData !== oldeditData) {
       this.setState({
         defaultSelectedKeys: localStorage.getItem('activeMenu')
@@ -47,7 +46,7 @@ class ContentView extends Component {
               <Menu
                 onClick={this.onClickMenu}
                 mode="inline"
-                defaultSelectedKeys={[this.state.defaultSelectedKeys]}
+                selectedKeys={[this.state.defaultSelectedKeys]}
                 style={{ height: '100%' }}
               >
                 {spacelist.map(item => {

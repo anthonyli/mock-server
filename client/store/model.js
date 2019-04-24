@@ -21,8 +21,8 @@ export default {
     async querySpace(data, rootState) {
       const space = await axios.post('/space/list')
       if (!localStorage.getItem('activeMenu')) {
-        this.setActiveMenu(space[0].id)
         localStorage.setItem('activeMenu', space[0].id)
+        this.setActiveMenu(space[0].id)
       } else {
         this.setActiveMenu(localStorage.getItem('activeMenu'))
       }

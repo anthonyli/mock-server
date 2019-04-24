@@ -148,7 +148,10 @@ export default class HeaderCom extends Component {
           <ToolUser
             {...{ studyTip, user, msg, uid, role, imageUrl }}
             relieveLink={this.relieveLink}
-            logout={action.logout}
+            logout={() => {
+              action.setActiveMenu('')
+              action.logout()
+            }}
           />
         </div>
       </Header>
