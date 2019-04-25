@@ -7,6 +7,7 @@ import { Layout } from 'antd'
 
 import Footer from './footer'
 import Header from './header'
+import Modal from './modal'
 import Content from './content'
 
 class LayoutApp extends Component {
@@ -27,15 +28,16 @@ class LayoutApp extends Component {
 
   render() {
     const { children, common, action } = this.props
-    const { spacelist, activeMenu } = common.toJS()
+    const { spacelist, activeMenu, modal, allUsers } = common.toJS()
     return (
       <div className="m-container">
         <Layout>
           <Header action={action} />
-          <Content activeMenu={activeMenu} spacelist={spacelist}>
+          <Content activeMenu={activeMenu} action={action} spacelist={spacelist}>
             {children}
           </Content>
           <Footer />
+          <Modal modal={modal} allUsers={allUsers} action={action} />
         </Layout>
       </div>
     )

@@ -9,6 +9,7 @@ module.exports = class {
       attributes: [
         [sequelize.col('Namespace.name_space'), 'nameSpace'],
         [sequelize.col('Namespace.description'), 'description'],
+        [sequelize.col('Namespace.type'), 'type'],
         [sequelize.col('Namespace.id'), 'id'],
         [sequelize.fn('count', sequelize.col('Namespace.id')), 'apiNums']
       ],
@@ -74,7 +75,9 @@ module.exports = class {
           transaction: t
         })
       })
-      .then(res => res)
+      .then(res => {
+        console.log(res)
+      })
       .catch(res => {
         console.log(res)
       })

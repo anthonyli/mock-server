@@ -3,7 +3,7 @@ import React, { PureComponent as Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
-import { Layout, Menu, Breadcrumb } from 'antd'
+import { Layout, Menu, Breadcrumb, Icon, Tooltip } from 'antd'
 
 const { Content, Sider } = Layout
 
@@ -17,12 +17,16 @@ class ContentView extends Component {
 
   static propTypes = {
     children: PropTypes.object,
+    action: PropTypes.object,
     activeMenu: PropTypes.string,
     spacelist: PropTypes.array
   }
 
   onClickMenu = item => {
     localStorage.setItem('activeMenu', item.key)
+    this.setState({
+      defaultSelectedKeys: item.key
+    })
   }
 
   componentWillReceiveProps(props) {
@@ -36,23 +40,37 @@ class ContentView extends Component {
   }
 
   render() {
-    const { children, spacelist } = this.props
+    const { children, spacelist, action } = this.props
+
+    const itemobj = spacelist.find(res => {
+      return res.id === Number(this.state.defaultSelectedKeys)
+    })
 
     return (
       <Content className="content-wrapper">
         {spacelist.length !== 0 && (
           <Layout className="con-layout">
-            <Sider width={220}>
+            <Sider className="con-sider" width={220}>
+              <div className="con-folder-add">
+                <p>{itemobj && itemobj.nameSpace}</p>
+                <p>
+                  <Tooltip placement="top" title={'新建空间'}>
+                    <Icon type="folder-add" onClick={action.showModal} />
+                  </Tooltip>
+                </p>
+              </div>
               <Menu
                 onClick={this.onClickMenu}
                 mode="inline"
                 selectedKeys={[this.state.defaultSelectedKeys]}
-                style={{ height: '100%' }}
               >
                 {spacelist.map(item => {
                   return (
                     <Menu.Item key={`${item.id}`}>
-                      <Link to={`/namespace`}>{item.nameSpace}</Link>
+                      <Link to={`/namespace`}>
+                        <Icon type={item.type ? 'user' : 'folder'} />
+                        {item.nameSpace}
+                      </Link>
                     </Menu.Item>
                   )
                 })}

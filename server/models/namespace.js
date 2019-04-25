@@ -15,6 +15,7 @@ module.exports = function(sequelize, DataTypes) {
       description: DataTypes.STRING(500),
       uid: DataTypes.INTEGER(10),
       status: DataTypes.INTEGER(1),
+      type: DataTypes.INTEGER(10),
       createdTime: {
         type: DataTypes.DATE,
         field: 'created_time'

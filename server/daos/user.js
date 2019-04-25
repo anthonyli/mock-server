@@ -45,6 +45,7 @@ module.exports = class {
             nameSpace: '个人空间',
             description: '',
             uid: user.id,
+            type: 1,
             status: STATUS_ENABLED
           },
           {
