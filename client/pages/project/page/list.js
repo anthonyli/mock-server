@@ -3,15 +3,18 @@ import { connect } from 'react-redux'
 
 function mapStateToProps(state) {
   const project = state.project
+  const common = state.common
   return {
-    project
+    project,
+    common
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     action: {
-      ...dispatch.project
+      ...dispatch.project,
+      ...dispatch.common
     }
   }
 }

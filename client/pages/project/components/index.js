@@ -9,6 +9,7 @@ const TabPane = Tabs.TabPane
 export default class PageIndex extends React.Component {
   static propTypes = {
     project: PropTypes.object,
+    common: PropTypes.object,
     action: PropTypes.object
   }
 
@@ -18,8 +19,12 @@ export default class PageIndex extends React.Component {
   }
 
   render() {
-    const { project, action } = this.props
+    const { project, action, common } = this.props
     const list = project.get('list')
+    const { spacelist, activeMenu } = common.toJS()
+    const itemobj = spacelist.find(res => {
+      return res.id === Number(activeMenu)
+    })
     return (
       <div className="m-content">
         <Tabs type="card">
@@ -36,9 +41,12 @@ export default class PageIndex extends React.Component {
             </Button>
             <List list={list} action={action} />
           </TabPane>
-          <TabPane tab="成员列表" key="2">
-            Content of Tab Pane 2
-          </TabPane>
+          {!itemobj.type && (
+            <TabPane tab="成员列表" key="2">
+              Content of Tab Pane 2
+            </TabPane>
+          )}
+
           <TabPane tab="空间设置" key="3">
             Content of Tab Pane 3
           </TabPane>

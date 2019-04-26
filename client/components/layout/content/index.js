@@ -24,10 +24,12 @@ class ContentView extends Component {
   }
 
   onClickMenu = item => {
+    const { action } = this.props
     localStorage.setItem('activeMenu', item.key)
     this.setState({
       defaultSelectedKeys: item.key
     })
+    action.setActiveMenu(item.key)
     history.push('/namespace')
   }
 
