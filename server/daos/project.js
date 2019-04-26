@@ -126,9 +126,21 @@ module.exports = class {
           )
         }
         const permissionList = []
-        permissionList.push({ pid: pro.id || opts.pid, role: ROLE_OWNER, uid: opts.owner })
+        opts.owner.forEach(owner => {
+          permissionList.push({
+            pid: pro.id || opts.pid,
+            role: ROLE_OWNER,
+            uid: owner,
+            nid: opts.nid
+          })
+        })
         opts.members.forEach(member => {
-          permissionList.push({ pid: pro.id || opts.pid, role: ROLE_MEMBER, uid: member })
+          permissionList.push({
+            pid: pro.id || opts.pid,
+            role: ROLE_MEMBER,
+            uid: member,
+            nid: opts.nid
+          })
         })
         await Permission.bulkCreate(permissionList, {
           transaction: t

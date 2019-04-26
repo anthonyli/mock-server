@@ -14,7 +14,8 @@ const initialState = im.fromJS({
     params: getDefaultParams(),
     defaultParams: getDefaultParams(),
     dataSource: []
-  }
+  },
+  editData: {}
 })
 
 export default {
@@ -43,10 +44,15 @@ export default {
         rootState.project.getIn(['list', 'defaultParams']).toJS(),
         params
       )
+      newParams.nid = localStorage.getItem('activeMenu')
       this.loading()
       const data = await axios.get('/project/list', { params: newParams })
       this.list(data)
       this.setParams(newParams)
+    },
+    saveProject(data, rootState) {
+      data.nid = localStorage.getItem('activeMenu')
+      return axios.post('/project/save', data)
     }
   }
 }

@@ -2,6 +2,7 @@ import './index.less'
 import React, { PureComponent as Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import history from 'common/history'
 
 import { Layout, Menu, Breadcrumb, Icon, Tooltip } from 'antd'
 
@@ -27,6 +28,7 @@ class ContentView extends Component {
     this.setState({
       defaultSelectedKeys: item.key
     })
+    history.push('/namespace')
   }
 
   componentWillReceiveProps(props) {
@@ -67,21 +69,19 @@ class ContentView extends Component {
                 {spacelist.map(item => {
                   return (
                     <Menu.Item key={`${item.id}`}>
-                      <Link to={`/namespace`}>
-                        <Icon type={item.type ? 'user' : 'folder'} />
-                        {item.nameSpace}
-                      </Link>
+                      <Icon type={item.type ? 'user' : 'folder'} />
+                      {item.nameSpace}
                     </Menu.Item>
                   )
                 })}
               </Menu>
             </Sider>
             <Content className="layout-con">
-              <Breadcrumb style={{ margin: '16px 0' }}>
+              {/* <Breadcrumb style={{ margin: '16px 0' }}>
                 <Breadcrumb.Item>Home</Breadcrumb.Item>
                 <Breadcrumb.Item>List</Breadcrumb.Item>
                 <Breadcrumb.Item>App</Breadcrumb.Item>
-              </Breadcrumb>
+              </Breadcrumb> */}
               {children}
             </Content>
           </Layout>
