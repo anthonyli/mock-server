@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import history from 'common/history'
 import { Table } from 'antd'
+import { Link } from 'react-router-dom'
 import './index.less'
 
 class ListViews extends React.Component {
@@ -15,12 +16,10 @@ class ListViews extends React.Component {
   }
   columns = [
     {
-      title: '编号',
-      dataIndex: 'id'
-    },
-    {
       title: '名称',
-      dataIndex: 'projectName'
+      render: item => {
+        return <Link to={`/project/${item.id}`}>{item.projectName}</Link>
+      }
     },
     {
       title: '描述',
