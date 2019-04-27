@@ -13,10 +13,6 @@ module.exports = function(sequelize, DataTypes) {
       author: DataTypes.STRING(45),
       status: DataTypes.INTEGER(1),
       content: DataTypes.TEXT,
-      categoryId: {
-        type: DataTypes.INTEGER(10),
-        field: 'category_id'
-      },
       createdTime: {
         type: DataTypes.DATE,
         field: 'created_time'
@@ -27,7 +23,7 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     {
-      tableName: 'client_doc_document'
+      tableName: 'doc_document'
     }
   )
 
