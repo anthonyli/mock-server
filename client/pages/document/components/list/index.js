@@ -7,8 +7,7 @@ import './index.less'
 
 class ListViews extends React.Component {
   static propTypes = {
-    project: PropTypes.object,
-    match: PropTypes.object,
+    list: PropTypes.object,
     action: PropTypes.object
   }
   constructor(props) {
@@ -18,7 +17,31 @@ class ListViews extends React.Component {
   columns = [
     {
       title: '名称',
-      dataIndex: 'title'
+      render: item => {
+        return <Link to={`/project/${item.id}`}>{item.projectName}</Link>
+      }
+    },
+    {
+      title: '描述',
+      dataIndex: 'description'
+    },
+    {
+      title: '负责人',
+      render: item => {
+        return <span>{item.owner.userNickName}</span>
+      }
+    },
+    {
+      title: '成员',
+      render: item => {
+        return item.members.map(u => {
+          return (
+            <span className="c-p-member" key={u.userId}>
+              {u.userNickName}
+            </span>
+          )
+        })
+      }
     },
     {
       title: '操作',
@@ -50,35 +73,26 @@ class ListViews extends React.Component {
     }
   ]
 
-  componentDidMount() {
-    const { match } = this.props
-    const { id } = match.params || {}
-    const { querydoc } = this.props.action
-    if (id) {
-      querydoc({ pid: match.params.id })
-    }
-  }
+  componentDidMount() {}
 
   render() {
-    const { project, action } = this.props
-    const doclist = project.get('doclist')
+    const { list, action } = this.props
 
-    const { loading, dataSource, params } = doclist.toJS()
-    console.log(dataSource)
+    const { loading, dataSource, params } = list.toJS()
     return (
       <Table
         rowKey="id"
         className="table-list"
         loading={loading}
         columns={this.columns}
-        dataSource={dataSource.rows}
+        dataSource={dataSource}
         pagination={{
-          total: dataSource.count,
+          total: dataSource.length,
           pageSize: params.pageSize,
           current: params.pageIndex,
           showQuickJumper: true,
           showTotal: total => `共 ${total} 条`,
-          onChange: pageIndex => action.querydoc({ ...params, pageIndex })
+          onChange: page => action.query({ ...params, page })
         }}
       />
     )

@@ -1,1 +1,1 @@
-export default ['user', 'project', 'namespace']
+export default ['user', 'project', 'namespace', 'document']
