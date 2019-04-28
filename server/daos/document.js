@@ -1,4 +1,27 @@
+const STATUS_ENABLED = 1
+const STATUS_DISABLED = 0
 module.exports = class {
+  getDocumentList(ctx) {
+    const { Document } = global.M
+    const { pageIndex, pageSize, pid } = ctx.query
+    const offset = (pageIndex - 1) * pageSize
+    const limit = +pageSize
+    return Document.findAndCountAll({
+      where: {
+        pid: pid,
+        status: STATUS_ENABLED
+      },
+      limit,
+      offset
+    })
+      .then(res => {
+        console.log(res)
+        return res
+      })
+      .catch(res => {
+        console.log(res)
+      })
+  }
   getDocumentById(id) {
     const { Document } = global.M
     return Document.findOne({
@@ -73,7 +96,7 @@ module.exports = class {
     const { Document } = global.M
     return Document.update(
       {
-        status: 0
+        status: STATUS_DISABLED
       },
       {
         where: { id: id }

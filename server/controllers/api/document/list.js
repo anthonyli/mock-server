@@ -1,9 +1,9 @@
-const ProjectDaos = require('daos/project')
+const DocumentDaos = require('daos/document')
 
 module.exports = async ctx => {
-  const projectDaos = new ProjectDaos()
+  const documentDaos = new DocumentDaos()
 
-  const projects = await projectDaos.getProjectList(ctx)
+  const documents = await documentDaos.getDocumentList(ctx)
 
-  ctx.body = { code: 0, data: projects }
+  ctx.body = { code: 0, data: documents }
 }
