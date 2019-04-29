@@ -1,57 +1,52 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Tabs } from 'antd'
-import List from './list'
 import history from 'common/history'
+import { Button } from 'antd'
 
-const TabPane = Tabs.TabPane
+import List from './list'
 
-export default class PageIndex extends React.Component {
+class PageIndex extends React.Component {
   static propTypes = {
     project: PropTypes.object,
-    common: PropTypes.object,
+    match: PropTypes.object,
     action: PropTypes.object
+  }
+  constructor(props) {
+    super(props)
+    this.state = {}
   }
 
   componentDidMount() {
-    const { action } = this.props
-    action.query()
+    const { match } = this.props
+    const { id } = match.params || {}
+    const { querydoc } = this.props.action
+    if (id) {
+      querydoc({ pid: match.params.id })
+    }
   }
 
   render() {
-    const { project, action, common } = this.props
-    const list = project.get('list')
-    const { spacelist, activeMenu } = common.toJS()
-    const itemobj = spacelist.find(res => {
-      return res.id === Number(activeMenu)
-    })
-    return (
-      <div className="m-content">
-        <Tabs type="card">
-          <TabPane tab="项目列表" key="1">
-            <Button
-              className="p-add-btn"
-              onClick={() => {
-                history.push('/project/add')
-              }}
-              type="primary"
-              ghost
-            >
-              添加项目
-            </Button>
-            <List list={list} action={action} />
-          </TabPane>
-          {!itemobj.type && (
-            <TabPane tab="成员列表" key="2">
-              Content of Tab Pane 2
-            </TabPane>
-          )}
+    const { project, action } = this.props
+    const doclist = project.get('doclist')
 
-          <TabPane tab="空间设置" key="3">
-            Content of Tab Pane 3
-          </TabPane>
-        </Tabs>
+    const { dataSource } = doclist.toJS()
+
+    return (
+      <div className="page-doc">
+        <Button
+          className="p-add-btn"
+          onClick={() => {
+            history.push('/doc/add')
+          }}
+          type="primary"
+          ghost
+        >
+          添加项目
+        </Button>
+        {dataSource.length && <List doclist={doclist} action={action} />}
       </div>
     )
   }
 }
+
+export default PageIndex

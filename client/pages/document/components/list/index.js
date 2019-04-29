@@ -2,12 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import history from 'common/history'
 import { Table } from 'antd'
-import { Link } from 'react-router-dom'
 import './index.less'
 
 class ListViews extends React.Component {
   static propTypes = {
-    list: PropTypes.object,
+    doclist: PropTypes.object,
     action: PropTypes.object
   }
   constructor(props) {
@@ -17,31 +16,7 @@ class ListViews extends React.Component {
   columns = [
     {
       title: '名称',
-      render: item => {
-        return <Link to={`/project/${item.id}`}>{item.projectName}</Link>
-      }
-    },
-    {
-      title: '描述',
-      dataIndex: 'description'
-    },
-    {
-      title: '负责人',
-      render: item => {
-        return <span>{item.owner.userNickName}</span>
-      }
-    },
-    {
-      title: '成员',
-      render: item => {
-        return item.members.map(u => {
-          return (
-            <span className="c-p-member" key={u.userId}>
-              {u.userNickName}
-            </span>
-          )
-        })
-      }
+      dataIndex: 'title'
     },
     {
       title: '操作',
@@ -73,26 +48,24 @@ class ListViews extends React.Component {
     }
   ]
 
-  componentDidMount() {}
-
   render() {
-    const { list, action } = this.props
+    const { doclist, action } = this.props
 
-    const { loading, dataSource, params } = list.toJS()
+    const { loading, dataSource, params } = doclist.toJS()
     return (
       <Table
         rowKey="id"
         className="table-list"
         loading={loading}
         columns={this.columns}
-        dataSource={dataSource}
+        dataSource={dataSource.rows}
         pagination={{
-          total: dataSource.length,
+          total: dataSource.count,
           pageSize: params.pageSize,
           current: params.pageIndex,
           showQuickJumper: true,
           showTotal: total => `共 ${total} 条`,
-          onChange: page => action.query({ ...params, page })
+          onChange: pageIndex => action.querydoc({ ...params, pageIndex })
         }}
       />
     )

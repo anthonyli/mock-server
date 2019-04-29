@@ -21,6 +21,7 @@ export default class PageIndex extends React.Component {
   render() {
     const { project, action, common } = this.props
     const list = project.get('list')
+    const { dataSource } = list.toJS()
     const { spacelist, activeMenu } = common.toJS()
     const itemobj = spacelist.find(res => {
       return res.id === Number(activeMenu)
@@ -39,7 +40,7 @@ export default class PageIndex extends React.Component {
             >
               添加项目
             </Button>
-            <List list={list} action={action} />
+            {dataSource.length && <List list={list} action={action} />}
           </TabPane>
           {!itemobj.type && (
             <TabPane tab="成员列表" key="2">

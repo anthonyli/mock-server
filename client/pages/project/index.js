@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom'
 
 import List from 'pages/project/page/list'
 import Add from 'pages/project/page/add'
-import Document from 'pages/project/page/document'
+import Document from 'pages/document/page/list'
 
 class Project extends Component {
   render() {
