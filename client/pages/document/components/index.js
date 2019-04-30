@@ -41,9 +41,9 @@ class PageIndex extends React.Component {
           type="primary"
           ghost
         >
-          添加项目
+          添加接口
         </Button>
-        {dataSource.length && <List doclist={doclist} action={action} />}
+        {dataSource.count ? <List doclist={doclist} action={action} /> : null}
       </div>
     )
   }

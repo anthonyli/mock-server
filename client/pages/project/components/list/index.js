@@ -16,6 +16,10 @@ class ListViews extends React.Component {
   }
   columns = [
     {
+      title: '编号',
+      dataIndex: 'id'
+    },
+    {
       title: '名称',
       render: item => {
         return <Link to={`/project/${item.id}`}>{item.projectName}</Link>

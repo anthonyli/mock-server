@@ -40,7 +40,7 @@ export default class PageIndex extends React.Component {
             >
               添加项目
             </Button>
-            {dataSource.length && <List list={list} action={action} />}
+            {dataSource.length ? <List list={list} action={action} /> : null}
           </TabPane>
           {!itemobj.type && (
             <TabPane tab="成员列表" key="2">

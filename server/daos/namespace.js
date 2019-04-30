@@ -76,7 +76,7 @@ module.exports = class {
         })
       })
       .then(res => {
-        console.log(res)
+        return res
       })
       .catch(res => {
         console.log(res)

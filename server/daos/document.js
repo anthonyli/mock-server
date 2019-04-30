@@ -15,7 +15,6 @@ module.exports = class {
       offset
     })
       .then(res => {
-        console.log(res)
         return res
       })
       .catch(res => {
