@@ -36,7 +36,7 @@ class PageIndex extends React.Component {
         <Button
           className="p-add-btn"
           onClick={() => {
-            history.push('/doc/add')
+            history.push('/document/add')
           }}
           type="primary"
           ghost

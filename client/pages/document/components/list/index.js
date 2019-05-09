@@ -28,7 +28,7 @@ class ListViews extends React.Component {
               href="javascript:;"
               onClick={e => {
                 e.stopPropagation()
-                history.push(`/product/add/${record.id}`)
+                history.push(`/document/add/${record.id}`)
               }}
             >
               编辑
