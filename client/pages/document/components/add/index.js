@@ -1,24 +1,29 @@
 import React, { Component } from 'react'
-import { Modal, Tabs, Form, Input, Radio, Row, Col } from 'antd'
-import AceEditor from 'react-ace'
+import { Form, Tabs, Input, Radio, Button, Row, Col } from 'antd'
+import PropTypes from 'prop-types'
 import './index.less'
+import history from 'common/history'
+import AceEditor from 'react-ace'
+import EditTable from '../edit-table'
 
 import 'brace/mode/javascript'
 import 'brace/theme/github'
 
-const TabPane = Tabs.TabPane
 const FormItem = Form.Item
 const RadioGroup = Radio.Group
-class EditDoc extends Component {
-  constructor(props, context) {
-    super(props, context)
-    this.state = {}
-  }
+const TabPane = Tabs.TabPane
+const { TextArea } = Input
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.showEditModal && !this.props.showEditModal) {
-      this.props.form.resetFields()
-      this.state = {}
+class EditDoc extends Component {
+  static propTypes = {
+    form: PropTypes.object,
+    document: PropTypes.object
+  }
+  constructor(props) {
+    super(props)
+    this.state = {
+      resBody: '',
+      reqBody: ''
     }
   }
 
@@ -39,32 +44,11 @@ class EditDoc extends Component {
       this.props.saveDocument(docData)
     })
   }
-  close() {
-    this.props.closeEditApiDoc()
-  }
 
-  handleReqBody(value) {
-    const doc = this.props.editDoc.toJS()
-    const docContent = JSON.parse(doc.content || '{}')
-    const reqType = this.props.form.getFieldValue('requestType')
-    const reqBody = this.state.reqBody || docContent.reqBody || {}
-    reqBody[reqType] = value
-    this.setState({
-      reqBody: reqBody
-    })
-  }
-  handleReqHeader(reqHeader) {
-    this.setState({
-      reqHeader: reqHeader
-    })
-  }
-  handleResBody(value) {
+  handleResBody = value => {
     this.setState({
       resBody: value
     })
-  }
-  handleResHeader(resHeader) {
-    this.setState({ resHeader: resHeader })
   }
 
   checkPath(rule, value, callback) {
@@ -76,7 +60,25 @@ class EditDoc extends Component {
     }
   }
 
-  getReqParams(reqBody) {
+  handleReqHeader = reqHeader => {
+    this.setState({
+      reqHeader: reqHeader
+    })
+  }
+
+  handleReqBody = value => {
+    const { document } = this.props
+    const { editData } = document.toJS()
+    const docContent = JSON.parse(editData.content || '{}')
+    const reqType = this.props.form.getFieldValue('requestType')
+    const reqBody = this.state.reqBody || docContent.reqBody || {}
+    reqBody[reqType] = value
+    this.setState({
+      reqBody: reqBody
+    })
+  }
+
+  getReqParams = reqBody => {
     const reqType = this.props.form.getFieldValue('requestType')
     let reqInput
     switch (reqType) {
@@ -85,44 +87,49 @@ class EditDoc extends Component {
           <AceEditor
             mode="javascript"
             theme="github"
-            showPrintMargin={false}
             value={reqBody[reqType]}
             onChange={this.handleReqBody}
-            name="request json"
+            name="response json"
             width="100%"
-            minLines={5}
+            minLines={10}
             maxLines={50}
             className="ace-editor"
+            showPrintMargin={false}
+            showGutter
             editorProps={{ $blockScrolling: true }}
-            onLoad={editor => {
-              editor.getSession().setUseWorker(false)
-            }}
           />
         )
         break
       case 'FORM-DATA':
-        reqInput = null
+        reqInput = (
+          <EditTable
+            showDataType
+            paramList={reqBody[reqType]}
+            onChange={this.handleReqBody}
+            showRequired
+          />
+        )
         break
       case 'X-WWW-FORM-URLENCODED':
-        reqInput = null
+        reqInput = (
+          <EditTable paramList={reqBody[reqType]} onChange={this.handleReqBody} showRequired />
+        )
         break
       default:
         reqInput = (
           <AceEditor
             mode="javascript"
             theme="github"
-            showPrintMargin={false}
-            value={reqBody}
-            onChange={this.handleReqBody.bind(this)}
-            name="request json"
+            value={reqBody[reqType]}
+            onChange={this.handleReqBody}
+            name="response json"
             width="100%"
-            minLines={5}
+            minLines={10}
             maxLines={50}
             className="ace-editor"
+            showPrintMargin={false}
+            showGutter
             editorProps={{ $blockScrolling: true }}
-            onLoad={editor => {
-              editor.getSession().setUseWorker(false)
-            }}
           />
         )
     }
@@ -130,36 +137,38 @@ class EditDoc extends Component {
   }
 
   render() {
-    const doc = this.props.editDoc.toJS()
-    const docContent = JSON.parse(doc.content || '{}')
-    const { getFieldDecorator } = this.props.form
+    const { document, form } = this.props
+    const { editData } = document.toJS()
+    const { getFieldDecorator } = form
+
+    const docContent = JSON.parse(editData.content || '{}')
+
     const reqBody = this.state.reqBody || docContent.reqBody || {}
     const reqHeader = this.state.reqHeader || docContent.reqHeader
-    const resBody = this.state.resBody === undefined ? docContent.resBody : this.state.resBody
-    const resHeader = this.state.resHeader || docContent.resHeader
-    const title = doc.id ? '编辑文档' : '新建文档'
+
+    const resBody = !this.state.resBody ? docContent.resBody : this.state.resBody
 
     const itemStyle = {
       labelCol: {
-        span: 4
+        span: 2
       },
       wrapperCol: {
-        span: 14
+        span: 16
       }
     }
     return (
       <div className="edit-doc">
-        <Form className="mt-20">
-          <FormItem label={`接口名 : `} {...itemStyle}>
+        <Form className="mt-20" onSubmit={this.saveDoc}>
+          <FormItem label="接口名" {...itemStyle}>
             {getFieldDecorator('title', {
-              initialValue: doc.title,
+              initialValue: editData.title,
               rules: [{ required: true, message: '请输入接口名称' }]
             })(<Input placeholder="接口名称" />)}
           </FormItem>
 
-          <FormItem label={`路径 : `} {...itemStyle}>
+          <FormItem label="路径" {...itemStyle}>
             {getFieldDecorator('pathName', {
-              initialValue: docContent.pathName,
+              initialValue: editData.pathName,
               rules: [
                 { required: true, message: '请输入路径,例: /api/v3/test' },
                 { validator: this.checkPath }
@@ -167,39 +176,15 @@ class EditDoc extends Component {
             })(<Input placeholder="接口路径,例: /api/v1/:id" />)}
           </FormItem>
 
-          <FormItem label={`项目地址 : `} {...itemStyle}>
-            {getFieldDecorator('gitUrl', {
-              initialValue: docContent.gitUrl
-            })(<Input placeholder="git项目地址" />)}
-          </FormItem>
-
-          <FormItem label={`线上地址 : `} {...itemStyle}>
-            {getFieldDecorator('podHost', {
-              initialValue: docContent.podHost
-            })(<Input placeholder="线上地址" />)}
-          </FormItem>
-
-          <FormItem label={`测试地址 : `} {...itemStyle}>
-            {getFieldDecorator('testHost', {
-              initialValue: docContent.testHost
-            })(<Input placeholder="测试地址" />)}
-          </FormItem>
-
-          <FormItem label={`接口描述 : `} {...itemStyle}>
+          <FormItem label="接口描述" {...itemStyle}>
             {getFieldDecorator('desc', {
-              initialValue: docContent.desc
-            })(
-              <Input
-                type="textarea"
-                autosize={{ minRows: 5, maxRows: 10 }}
-                placeholder="项目描述，支持markdown"
-              />
-            )}
+              initialValue: editData.desc
+            })(<TextArea rows={4} placeholder="项目描述，支持markdown" />)}
           </FormItem>
 
-          <FormItem label={`请求方法 : `} {...itemStyle}>
+          <FormItem label="请求方法" {...itemStyle}>
             {getFieldDecorator('method', {
-              initialValue: docContent.method ? docContent.method.toUpperCase() : 'GET',
+              initialValue: editData.method ? editData.method.toUpperCase() : 'GET',
               rules: [{ required: true, message: '请选择请求方法' }]
             })(
               <RadioGroup className="m-method-radio">
@@ -213,9 +198,9 @@ class EditDoc extends Component {
             )}
           </FormItem>
 
-          <FormItem label={`请求类型 : `} {...itemStyle} wrapperCol={{ span: 20 }}>
+          <FormItem label="请求类型" {...itemStyle} wrapperCol={{ span: 20 }}>
             {getFieldDecorator('requestType', {
-              initialValue: docContent.requestType || 'JSON',
+              initialValue: editData.requestType || 'JSON',
               rules: [{ required: true, message: '请求参数类型' }]
             })(
               <RadioGroup>
@@ -227,22 +212,24 @@ class EditDoc extends Component {
           </FormItem>
 
           <Row className="doc-item">
-            <Col span={4} className="item-label">
-              请求参数 :{' '}
+            <Col span={2} className="item-label">
+              请求参数 :
             </Col>
-            <Col span={20}>
+            <Col span={16}>
               <Tabs defaultActiveKey="1" type="card" className="edit-tabs">
                 <TabPane tab="请求参数" key="1">
                   {this.getReqParams(reqBody)}
                 </TabPane>
-                <TabPane tab="请求头" key="2" />
+                <TabPane tab="请求头" key="2">
+                  <EditTable paramList={reqHeader} onChange={this.handleReqHeader} showRequired />
+                </TabPane>
               </Tabs>
             </Col>
           </Row>
 
-          <FormItem label={`响应类型 : `} {...itemStyle}>
+          <FormItem label="响应类型" {...itemStyle}>
             {getFieldDecorator('responseType', {
-              initialValue: docContent.responseType || 'JSON',
+              initialValue: editData.responseType || 'JSON',
               rules: [{ required: true, message: '响应类型' }]
             })(
               <RadioGroup>
@@ -253,32 +240,44 @@ class EditDoc extends Component {
           </FormItem>
 
           <Row className="doc-item">
-            <Col span={4} className="item-label">
-              响应数据 :{' '}
+            <Col span={2} className="item-label">
+              响应数据 :
             </Col>
-            <Col span={20}>
+            <Col span={16}>
               <Tabs defaultActiveKey="1" type="card" className="edit-tabs">
                 <TabPane tab="响应数据" key="1">
-                  {/* <EditTable showImport={true} showDataType={true} paramList={resBody} onChange={this.handleResBody.bind(this)} /> */}
                   <AceEditor
                     mode="javascript"
                     theme="github"
-                    showPrintMargin={false}
                     value={resBody}
-                    onChange={this.handleResBody.bind(this)}
+                    onChange={this.handleResBody}
                     name="response json"
                     width="100%"
-                    minLines={5}
+                    minLines={10}
                     maxLines={50}
                     className="ace-editor"
+                    showPrintMargin={false}
+                    showGutter
                     editorProps={{ $blockScrolling: true }}
-                    onLoad={editor => {
-                      editor.getSession().setUseWorker(false)
-                    }}
                   />
                 </TabPane>
-                <TabPane tab="响应头" key="2" />
               </Tabs>
+            </Col>
+          </Row>
+          <Row className="doc-item">
+            <Col span={2} className="item-label" />
+            <Col span={16}>
+              <Button
+                type="default"
+                onClick={() => {
+                  history.goBack()
+                }}
+              >
+                取消
+              </Button>
+              <Button type="primary" style={{ marginLeft: '20px' }} htmlType="submit">
+                确定
+              </Button>
             </Col>
           </Row>
         </Form>

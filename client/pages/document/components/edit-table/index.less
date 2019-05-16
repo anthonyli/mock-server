@@ -1,0 +1,45 @@
+.table-line {
+    font-size: 12px;
+    line-height: 30px;
+    .clearfix {
+        margin-bottom: 0;
+    }
+    .param-row{
+        display: flex;
+    }
+    li {
+        border: 1px solid #ccc;
+        border-left: none;
+        border-top: none;
+        overflow: hidden;
+        padding:0 8px;
+        &.input{
+            padding: 0;
+            .ant-input{
+                border:none;
+                border-radius: 0;
+                box-shadow: none;
+            }
+        }
+        &.error{
+            border:1px solid #f00;
+        }
+        &:first-child{
+            border-left: 1px solid #ccc;
+        }
+        span{
+            word-wrap: break-word;
+            word-break: break-all;
+        }
+    }
+    .operate-icons{
+        .anticon{
+            cursor: pointer;
+        }
+    }
+}
+.table-header{
+    li{
+        border-top: 1px solid #ccc;
+    }
+}
