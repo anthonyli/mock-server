@@ -12,7 +12,8 @@ module.exports = class {
         status: STATUS_ENABLED
       },
       limit,
-      offset
+      offset,
+      order: [['createdTime', 'DESC']]
     })
       .then(res => {
         return res
@@ -21,28 +22,40 @@ module.exports = class {
         console.log(res)
       })
   }
-  getDocumentById(id) {
+  getDocumentById(ctx) {
     const { Document } = global.M
+    const { id } = ctx.query
     return Document.findOne({
       where: {
         id: id,
-        status: 1
+        status: STATUS_ENABLED
       }
     })
   }
 
-  getDocumentByPid(pid) {
+  getDocumentByPid(ctx) {
     const { Document } = global.M
+    const { pid } = ctx.query
     return Document.findAll({
       where: {
         pid: pid,
-        status: 1
+        status: STATUS_ENABLED
       }
+    }).then(res => {
+      return res.map(doc => {
+        const content = JSON.parse(doc.get('content'))
+        return {
+          id: doc.id,
+          method: content.method,
+          path: content.pathName
+        }
+      })
     })
   }
 
-  async saveDocument(opts = {}) {
+  async saveDocument(ctx) {
     const { Document } = global.M
+    const opts = ctx.request.body
     if (opts.id) {
       let oldDoc = await Document.findOne({
         where: { id: opts.id }
@@ -54,9 +67,8 @@ module.exports = class {
         Document.update(
           {
             title: opts.title,
-            content: JSON.stringify(opts.content),
-            categoryId: opts.categoryId,
-            author: opts.author,
+            content: opts.content,
+            author: ctx.user.name,
             status: 1
           },
           {
@@ -69,26 +81,11 @@ module.exports = class {
       return Document.create({
         pid: opts.pid,
         title: opts.title,
-        author: opts.author,
-        categoryId: opts.categoryId,
-        content: JSON.stringify(opts.content),
+        author: ctx.user.name,
+        content: opts.content,
         status: 1
       })
     }
-  }
-
-  moveCategory(opts = {}) {
-    const { Document } = global.M
-    return Document.update(
-      {
-        categoryId: opts.newCategoryId,
-        author: opts.author,
-        status: 1
-      },
-      {
-        where: { id: opts.id }
-      }
-    )
   }
 
   deleteDocument(id) {

@@ -48,6 +48,9 @@ export default {
         list.set('params', im.fromJS(payload)).set('loading', false)
       )
     },
+    setEditData: (state, payload) => {
+      return state.set('editData', im.fromJS(payload))
+    },
     setParamsdoc: (state, payload) => {
       return state.update('doclist', list =>
         list.set('params', im.fromJS(payload)).set('loading', false)
@@ -69,6 +72,10 @@ export default {
       this.list(data)
       this.setParams(newParams)
     },
+    async queryById(id, rootState) {
+      const data = await axios.get('/document/findone', { params: { id } })
+      this.setEditData(data)
+    },
     async querydoc(params, rootState) {
       let newParams = Object.assign(
         rootState.project.getIn(['doclist', 'defaultParams']).toJS(),
@@ -79,9 +86,8 @@ export default {
       this.doclist(data)
       this.setParamsdoc(newParams)
     },
-    saveProject(data, rootState) {
-      data.nid = localStorage.getItem('activeMenu')
-      return axios.post('/project/save', data)
+    saveDocument(data, rootState) {
+      return axios.post('/document/save', data)
     }
   }
 }

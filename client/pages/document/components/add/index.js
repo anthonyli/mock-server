@@ -21,27 +21,28 @@ class EditDoc extends Component {
   }
   constructor(props) {
     super(props)
-    this.state = {
-      resBody: '',
-      reqBody: ''
-    }
+    this.state = {}
   }
 
-  saveDoc() {
+  saveDoc = () => {
     this.props.form.validateFields((errors, values) => {
       if (errors) {
         return false
       }
-      const editDoc = this.props.editDoc.toJS()
-      const docContent = JSON.parse(editDoc.content || '{}')
+      const { document, action, match } = this.props
+      const { editData } = document.toJS()
+      const docContent = JSON.parse(editData.content || '{}')
+      const { id } = match.params || {}
+
       const docData = {
-        id: editDoc.id,
+        id: editData.id,
         title: values.title,
-        pid: editDoc.pid,
-        categoryId: editDoc.categoryId,
-        content: Object.assign({}, docContent, values, this.state)
+        pid: editData.pid || id,
+        content: JSON.stringify(Object.assign({}, docContent, values, this.state))
       }
-      this.props.saveDocument(docData)
+      action.saveDocument(docData).then(res => {
+        history.goBack()
+      })
     })
   }
 
@@ -89,7 +90,7 @@ class EditDoc extends Component {
             theme="github"
             value={reqBody[reqType]}
             onChange={this.handleReqBody}
-            name="response json"
+            name="request json"
             width="100%"
             minLines={10}
             maxLines={50}
@@ -122,7 +123,7 @@ class EditDoc extends Component {
             theme="github"
             value={reqBody[reqType]}
             onChange={this.handleReqBody}
-            name="response json"
+            name="request json"
             width="100%"
             minLines={10}
             maxLines={50}
@@ -134,6 +135,15 @@ class EditDoc extends Component {
         )
     }
     return reqInput
+  }
+
+  componentDidMount() {
+    const { match } = this.props
+    const { id } = match.params || {}
+    const { queryById } = this.props.action
+    if (id) {
+      queryById(match.params.id)
+    }
   }
 
   render() {
@@ -158,7 +168,7 @@ class EditDoc extends Component {
     }
     return (
       <div className="edit-doc">
-        <Form className="mt-20" onSubmit={this.saveDoc}>
+        <Form className="mt-20">
           <FormItem label="接口名" {...itemStyle}>
             {getFieldDecorator('title', {
               initialValue: editData.title,
@@ -168,7 +178,7 @@ class EditDoc extends Component {
 
           <FormItem label="路径" {...itemStyle}>
             {getFieldDecorator('pathName', {
-              initialValue: editData.pathName,
+              initialValue: docContent.pathName,
               rules: [
                 { required: true, message: '请输入路径,例: /api/v3/test' },
                 { validator: this.checkPath }
@@ -178,13 +188,13 @@ class EditDoc extends Component {
 
           <FormItem label="接口描述" {...itemStyle}>
             {getFieldDecorator('desc', {
-              initialValue: editData.desc
+              initialValue: docContent.desc
             })(<TextArea rows={4} placeholder="项目描述，支持markdown" />)}
           </FormItem>
 
           <FormItem label="请求方法" {...itemStyle}>
             {getFieldDecorator('method', {
-              initialValue: editData.method ? editData.method.toUpperCase() : 'GET',
+              initialValue: docContent.method ? docContent.method.toUpperCase() : 'GET',
               rules: [{ required: true, message: '请选择请求方法' }]
             })(
               <RadioGroup className="m-method-radio">
@@ -200,7 +210,7 @@ class EditDoc extends Component {
 
           <FormItem label="请求类型" {...itemStyle} wrapperCol={{ span: 20 }}>
             {getFieldDecorator('requestType', {
-              initialValue: editData.requestType || 'JSON',
+              initialValue: docContent.requestType || 'JSON',
               rules: [{ required: true, message: '请求参数类型' }]
             })(
               <RadioGroup>
@@ -229,7 +239,7 @@ class EditDoc extends Component {
 
           <FormItem label="响应类型" {...itemStyle}>
             {getFieldDecorator('responseType', {
-              initialValue: editData.responseType || 'JSON',
+              initialValue: docContent.responseType || 'JSON',
               rules: [{ required: true, message: '响应类型' }]
             })(
               <RadioGroup>
@@ -275,7 +285,7 @@ class EditDoc extends Component {
               >
                 取消
               </Button>
-              <Button type="primary" style={{ marginLeft: '20px' }} htmlType="submit">
+              <Button type="primary" style={{ marginLeft: '20px' }} onClick={this.saveDoc}>
                 确定
               </Button>
             </Col>
