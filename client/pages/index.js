@@ -1,1 +1,15 @@
-export default ['user', 'project', 'namespace', 'document']
+export default [
+  {
+    page: 'user',
+    isfull: true
+  },
+  {
+    page: 'project'
+  },
+  {
+    page: 'namespace'
+  },
+  {
+    page: 'document'
+  }
+]

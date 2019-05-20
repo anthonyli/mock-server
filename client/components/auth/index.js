@@ -1,33 +1,35 @@
 import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import Layouts from '../layout'
+
+const { Fragment } = React
 
 class Auth extends React.Component {
   static propTypes = {
-    component: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired
+    component: PropTypes.func.isRequired
   }
 
   render() {
-    const { component: Component, user, ...rest } = this.props
-    const isLogin = user.get('isLogin')
+    const { component: Component, page, ...rest } = this.props
+    const isLogin = localStorage.getItem('_m_token')
     return (
-      <Route
-        {...rest}
-        render={props => {
-          return isLogin ? <Component {...props} /> : <Redirect to="/user/login" />
-        }}
-      />
+      <Fragment>
+        {isLogin ? (
+          <Layouts isfull={page.isfull}>
+            <Route
+              {...rest}
+              render={props => {
+                return <Component {...props} />
+              }}
+            />
+          </Layouts>
+        ) : (
+          <Redirect to="/login" />
+        )}
+      </Fragment>
     )
   }
 }
 
-function mapStateToProps(state) {
-  const user = state.user
-  return {
-    user
-  }
-}
-
-export default connect(mapStateToProps)(Auth)
+export default Auth

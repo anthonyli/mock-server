@@ -2,6 +2,7 @@ import './index.less'
 import React, { PureComponent as Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import history from 'common/history'
 import { Icon, Layout, Menu, Dropdown, Tooltip } from 'antd'
 
 const { Header } = Layout
@@ -150,6 +151,7 @@ export default class HeaderCom extends Component {
             relieveLink={this.relieveLink}
             logout={() => {
               action.logout()
+              history.push('login')
             }}
           />
         </div>

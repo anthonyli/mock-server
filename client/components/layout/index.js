@@ -9,6 +9,7 @@ import Footer from './footer'
 import Header from './header'
 import Modal from './modal'
 import Content from './content'
+import FullContent from './full-content'
 
 class LayoutApp extends Component {
   constructor(props) {
@@ -18,6 +19,7 @@ class LayoutApp extends Component {
   static propTypes = {
     children: PropTypes.object,
     common: PropTypes.object,
+    isfull: PropTypes.bool,
     action: PropTypes.object
   }
 
@@ -27,15 +29,19 @@ class LayoutApp extends Component {
   }
 
   render() {
-    const { children, common, action } = this.props
+    const { children, common, action, isfull } = this.props
     const { spacelist, activeMenu, modal, allUsers } = common.toJS()
     return (
       <div className="m-container">
         <Layout>
           <Header action={action} />
-          <Content activeMenu={activeMenu} action={action} spacelist={spacelist}>
-            {children}
-          </Content>
+          {isfull ? (
+            <FullContent>{children}</FullContent>
+          ) : (
+            <Content activeMenu={activeMenu} action={action} spacelist={spacelist}>
+              {children}
+            </Content>
+          )}
           <Footer />
           <Modal modal={modal} allUsers={allUsers} action={action} />
         </Layout>

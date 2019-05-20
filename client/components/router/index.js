@@ -1,5 +1,5 @@
 import React from 'react'
-import { Switch, Redirect } from 'react-router-dom'
+import { Switch, Redirect, Route } from 'react-router-dom'
 import lazyloader from './lazyloader'
 import Auth from '../auth'
 import pages from '../../pages'
@@ -8,13 +8,19 @@ import pages from '../../pages'
 export default class CoreRouter extends React.PureComponent {
   get routes() {
     return pages.map(page => (
-      <Auth key={page} component={lazyloader(() => import(`pages/${page}`))} path={`/${page}`} />
+      <Auth
+        key={page.page}
+        page={page}
+        component={lazyloader(() => import(`pages/${page.page}`))}
+        path={`/${page.page}`}
+      />
     ))
   }
   render() {
     return (
       <Switch>
         {this.routes}
+        <Route component={lazyloader(() => import(`pages/login`))} path={`/login`} />
         <Redirect to="/namespace" />
       </Switch>
     )
