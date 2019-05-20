@@ -2,8 +2,14 @@ const STATUS_ENABLED = 1
 const ROLE_OWNER = 1
 
 module.exports = class {
-  getUserList(filter) {
-    return global.M.User.findAll({
+  getUserList(ctx, filter) {
+    const { User } = global.M
+    const { pageIndex, pageSize } = ctx.query
+    const offset = (pageIndex - 1) * pageSize
+    const limit = +pageSize
+    return User.findAndCountAll({
+      limit,
+      offset,
       where: {
         ...filter
       }

@@ -46,48 +46,15 @@ class ContentView extends Component {
   render() {
     const { children, spacelist, action } = this.props
 
-    const itemobj = spacelist.find(res => {
-      return res.id === Number(this.state.defaultSelectedKeys)
-    })
+    // const itemobj = spacelist.find(res => {
+    //   return res.id === Number(this.state.defaultSelectedKeys)
+    // })
 
     return (
       <Content className="content-wrapper">
-        {spacelist.length !== 0 && (
-          <Layout className="con-layout">
-            <Sider className="con-sider" width={220}>
-              <div className="con-folder-add">
-                <p>{itemobj && itemobj.nameSpace}</p>
-                <p>
-                  <Tooltip placement="top" title={'新建空间'}>
-                    <Icon type="folder-add" onClick={action.showModal} />
-                  </Tooltip>
-                </p>
-              </div>
-              <Menu
-                onClick={this.onClickMenu}
-                mode="inline"
-                selectedKeys={[this.state.defaultSelectedKeys]}
-              >
-                {spacelist.map(item => {
-                  return (
-                    <Menu.Item key={`${item.id}`}>
-                      <Icon type={item.type ? 'user' : 'folder'} />
-                      {item.nameSpace}
-                    </Menu.Item>
-                  )
-                })}
-              </Menu>
-            </Sider>
-            <Content className="layout-con">
-              {/* <Breadcrumb style={{ margin: '16px 0' }}>
-                <Breadcrumb.Item>Home</Breadcrumb.Item>
-                <Breadcrumb.Item>List</Breadcrumb.Item>
-                <Breadcrumb.Item>App</Breadcrumb.Item>
-              </Breadcrumb> */}
-              {children}
-            </Content>
-          </Layout>
-        )}
+        <Layout className="con-layout">
+          <Content className="layout-con">{children}</Content>
+        </Layout>
       </Content>
     )
   }

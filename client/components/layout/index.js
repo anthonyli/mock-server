@@ -61,7 +61,7 @@ function mapDispatchToProps(dispatch) {
   return {
     action: {
       ...dispatch.common,
-      ...dispatch.user
+      ...dispatch.login
     }
   }
 }

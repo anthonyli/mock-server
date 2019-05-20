@@ -2,16 +2,16 @@ import Login from './components'
 import { connect } from 'react-redux'
 
 function mapStateToProps(state) {
-  const user = state.user
+  const login = state.login
   return {
-    user
+    login
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     action: {
-      ...dispatch.user
+      ...dispatch.login
     }
   }
 }

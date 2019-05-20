@@ -1,4 +1,4 @@
-import Login from '../components/login'
+import Profile from '../components/profile'
 import { connect } from 'react-redux'
 
 function mapStateToProps(state) {
@@ -19,4 +19,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Login)
+)(Profile)

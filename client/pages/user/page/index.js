@@ -1,4 +1,4 @@
-import ListTable from '../components'
+import ListTable from '../components/list'
 import { connect } from 'react-redux'
 
 function mapStateToProps(state) {

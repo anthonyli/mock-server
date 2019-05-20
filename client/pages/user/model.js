@@ -1,40 +1,52 @@
 import im from 'immutable'
 import axios from 'common/axios'
 
+const getDefaultParams = () => {
+  return {
+    pageSize: 10,
+    pageIndex: 1
+  }
+}
+
 const initialState = im.fromJS({
-  isLogin: !!localStorage.getItem('_m_token'),
-  defaultActiveKey: '1',
-  list: []
+  list: {
+    loading: false,
+    params: getDefaultParams(),
+    defaultParams: getDefaultParams(),
+    dataSource: []
+  }
 })
 
 export default {
   state: initialState,
   reducers: {
-    isLogin: (state, payload) => {
-      return state.set('isLogin', payload)
+    list: (state, payload) => {
+      return state.update('list', list =>
+        list.set('dataSource', im.fromJS(payload)).set('loading', false)
+      )
     },
-    setActiveKey: (state, payload) => {
-      return state.set('defaultActiveKey', payload)
+    setParams: (state, payload) => {
+      return state.update('list', list =>
+        list.set('params', im.fromJS(payload)).set('loading', false)
+      )
+    },
+    loading: (state, payload) => {
+      return state.update('list', list => list.set('loading', true))
     },
     setUserList: (state, payload) => {
       return state.set('list', im.fromJS(payload))
     }
   },
   effects: {
-    login(data, rootState) {
-      return axios.post('/user/login', data)
-    },
-    register(data, rootState) {
-      return axios.post('/user/register', data)
-    },
-    async getUserList(data, rootState) {
-      const list = await axios.get('/user/list')
-      this.setUserList(list)
-    },
-    logout(data, rootState) {
-      localStorage.removeItem('_m_token')
-      localStorage.removeItem('activeMenu')
-      this.isLogin(false)
+    async getUserList(params, rootState) {
+      let newParams = Object.assign(
+        rootState.project.getIn(['list', 'defaultParams']).toJS(),
+        params
+      )
+      this.loading()
+      const data = await axios.get('/user/list', { params: newParams })
+      this.list(data)
+      this.setParams(newParams)
     }
   }
 }

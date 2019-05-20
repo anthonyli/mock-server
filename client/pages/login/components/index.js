@@ -10,7 +10,7 @@ const TabPane = Tabs.TabPane
 
 class Login extends React.Component {
   static propTypes = {
-    user: PropTypes.object,
+    login: PropTypes.object,
     action: PropTypes.object
   }
 
@@ -25,18 +25,14 @@ class Login extends React.Component {
 
   render() {
     const { action } = this.props
-    const defaultActiveKey = this.props.user.get('defaultActiveKey')
+    const defaultActiveKey = this.props.login.get('defaultActiveKey')
 
     return (
       <div className="page-login">
         <div className="login-container">
           <div className="login-form">
             <div className="logo" />
-            <Tabs
-              defaultActiveKey={defaultActiveKey}
-              activeKey={defaultActiveKey}
-              onChange={this.setActiveKey}
-            >
+            <Tabs activeKey={defaultActiveKey} onChange={this.setActiveKey}>
               <TabPane tab="登录" key="1">
                 <LoginForm action={action} />
               </TabPane>

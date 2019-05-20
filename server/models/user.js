@@ -24,6 +24,10 @@ module.exports = function(sequelize, DataTypes) {
         type: DataTypes.STRING(20),
         field: 'user_tel'
       },
+      email: {
+        type: DataTypes.STRING(50),
+        field: 'user_tel'
+      },
       userSex: {
         type: DataTypes.STRING(10),
         field: 'user_sex'
