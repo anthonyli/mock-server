@@ -32,12 +32,12 @@ class EditDoc extends Component {
       const { document, action, match } = this.props
       const { editData } = document.toJS()
       const docContent = JSON.parse(editData.content || '{}')
-      const { id } = match.params || {}
+      const { pid } = match.params || {}
 
       const docData = {
         id: editData.id,
         title: values.title,
-        pid: editData.pid || id,
+        pid: editData.pid || pid,
         content: JSON.stringify(Object.assign({}, docContent, values, this.state))
       }
       action.saveDocument(docData).then(res => {

@@ -31,12 +31,15 @@ class PageIndex extends React.Component {
 
     const { dataSource } = doclist.toJS()
 
+    const { match } = this.props
+    const { id } = match.params || {}
+
     return (
       <div className="page-doc">
         <Button
           className="p-add-btn"
           onClick={() => {
-            history.push('/document/add')
+            history.push(`/document/${id}/add`)
           }}
           type="primary"
           ghost

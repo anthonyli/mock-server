@@ -8,7 +8,7 @@ class Project extends Component {
   render() {
     return (
       <Switch>
-        <Route exact component={Add} path="/document/add" />
+        <Route exact component={Add} path="/document/:pid/add" />
         <Route exact component={Add} path="/document/add/:id" />
         <Route component={List} path="/" />
       </Switch>
