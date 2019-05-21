@@ -47,6 +47,9 @@ export default {
       const data = await axios.get('/user/list', { params: newParams })
       this.list(data)
       this.setParams(newParams)
+    },
+    deleteUser(params, rootState) {
+      return axios.post('/user/delete', { id: params })
     }
   }
 }

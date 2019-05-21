@@ -32,6 +32,7 @@ module.exports = function(sequelize, DataTypes) {
         type: DataTypes.STRING(10),
         field: 'user_sex'
       },
+      status: DataTypes.INTEGER(1),
       role: {
         type: DataTypes.INTEGER(10),
         field: 'role'

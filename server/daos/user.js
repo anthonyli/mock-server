@@ -1,4 +1,5 @@
 const STATUS_ENABLED = 1
+const STATUS_DISABLED = 0
 const ROLE_OWNER = 1
 
 module.exports = class {
@@ -18,13 +19,9 @@ module.exports = class {
 
   findAll() {
     const { User } = global.M
-    return User.findAll()
-  }
-
-  getUserById(userName) {
-    return global.M.User.findOne({
+    return User.findAll({
       where: {
-        userName
+        status: STATUS_ENABLED
       }
     })
   }
@@ -40,6 +37,7 @@ module.exports = class {
             userName: opts.userName,
             userNickName: opts.userNickName,
             userPassword: opts.userPassword,
+            status: STATUS_ENABLED,
             role: 2
           },
           {
@@ -71,7 +69,29 @@ module.exports = class {
       })
   }
 
+  deleteUser(ctx) {
+    const { User } = global.M
+    const { id } = ctx.request.body
+    return User.update(
+      {
+        status: STATUS_DISABLED
+      },
+      {
+        where: { id: id }
+      }
+    )
+  }
+
   login(params) {
+    return global.M.User.findOne({
+      where: {
+        userName: params.userName,
+        status: STATUS_ENABLED
+      }
+    })
+  }
+
+  validation(params) {
     return global.M.User.findOne({
       where: {
         userName: params.userName

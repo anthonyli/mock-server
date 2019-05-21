@@ -1,13 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import history from 'common/history'
 import moment from 'moment'
-import { Table } from 'antd'
+import { Table, Popconfirm } from 'antd'
 import './index.less'
 
 class ListViews extends React.Component {
   static propTypes = {
-    user: PropTypes.object,
+    list: PropTypes.object,
     action: PropTypes.object
   }
   constructor(props) {
@@ -29,7 +28,17 @@ class ListViews extends React.Component {
     },
     {
       title: '角色',
-      dataIndex: 'role'
+      dataIndex: 'role',
+      render: role => {
+        return role === 1 ? '管理员' : '用户'
+      }
+    },
+    {
+      title: '状态',
+      dataIndex: 'status',
+      render: status => {
+        return status === 1 ? '开启' : '禁用'
+      }
     },
     {
       title: '更新时间',
@@ -42,41 +51,29 @@ class ListViews extends React.Component {
       title: '操作',
       key: 'action',
       render: (text, record) => {
+        const { action, list } = this.props
+        const { params } = list
         return (
           <span className="actions">
-            <a
-              href="javascript:;"
-              onClick={e => {
-                e.stopPropagation()
-                history.push(`/document/add/${record.id}`)
+            <Popconfirm
+              placement="topRight"
+              title="确定要操作该项？"
+              onConfirm={() => {
+                action.deleteUser(record.id).then(res => {
+                  action.getUserList({ ...params })
+                })
               }}
             >
-              编辑
-            </a>
-            <a
-              href="javascript:;"
-              onClick={e => {
-                e.stopPropagation()
-                history.push(`/product/add/${record.id}`)
-              }}
-            >
-              删除
-            </a>
+              <a href="javascript:;">删除</a>
+            </Popconfirm>
           </span>
         )
       }
     }
   ]
 
-  componentDidMount() {
-    const { action } = this.props
-    action.getUserList()
-  }
-
   render() {
-    const { user, action } = this.props
-
-    const { list } = user.toJS()
+    const { list, action } = this.props
 
     const { loading, dataSource, params } = list
 

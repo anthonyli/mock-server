@@ -2,6 +2,13 @@ const User = require('daos/user')
 module.exports = async ctx => {
   const user = new User()
   const filter = {}
+  const { userName } = ctx.query
+
+  if (userName) {
+    filter.userName = {
+      like: `%${userName}%`
+    }
+  }
 
   const userData = await user.getUserList(ctx, filter)
 
@@ -12,6 +19,7 @@ module.exports = async ctx => {
       role: item.role,
       userTel: item.userTel,
       email: item.email,
+      status: item.status,
       updateTime: item.updateTime
     }
     return temp
