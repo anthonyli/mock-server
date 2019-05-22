@@ -23,6 +23,7 @@ async function getInitState(ctx) {
     return {
       id: item.id,
       userName: item.userName,
+      role: item.role,
       userNickName: item.userNickName
     }
   })

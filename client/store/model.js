@@ -9,6 +9,7 @@ const initialState = im.fromJS({
     currentRecord: {},
     loading: false
   },
+  user: {},
   ...window.__INITIAL_STATE__
 })
 
@@ -28,6 +29,9 @@ export default {
     },
     setActiveMenu: (state, payload) => {
       return state.set('activeMenu', payload)
+    },
+    setUser: (state, payload) => {
+      return state.set('user', im.fromJS(payload))
     }
   },
   effects: {

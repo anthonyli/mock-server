@@ -19,7 +19,7 @@ class Login extends React.Component {
   }
 
   login = e => {
-    const { login } = this.props.action
+    const { login, setUser } = this.props.action
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
@@ -27,7 +27,8 @@ class Login extends React.Component {
         login(values)
           .then(rst => {
             localStorage.setItem('_m_token', rst.token)
-            history.push('namespace')
+            setUser(rst.user)
+            history.push('/namespace')
           })
           .catch(res => {
             this.setState({ loginPending: false })

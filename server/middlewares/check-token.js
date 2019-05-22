@@ -17,6 +17,7 @@ module.exports = function() {
           ctx.user = {
             name: payload.name,
             nickname: payload.nickname,
+            role: payload.role,
             id: payload.id
           }
         } catch (err) {

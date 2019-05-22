@@ -26,14 +26,14 @@ const MenuUser = props => (
   <Menu theme="dark" className="user-menu">
     {Object.keys(HeaderMenu).map(key => {
       let item = HeaderMenu[key]
-      const isAdmin = props.role === 'admin'
+      const isAdmin = props.user.role === 1
       if (item.adminFlag && !isAdmin) {
         return null
       }
       return (
         <Menu.Item key={key}>
           {item.name === '个人中心' ? (
-            <Link to={item.path + `/${props.uid}`}>
+            <Link to={item.path + `/${props.user.id}`}>
               <Icon type={item.icon} />
               {item.name}
             </Link>
@@ -56,8 +56,7 @@ const MenuUser = props => (
 )
 
 MenuUser.propTypes = {
-  role: PropTypes.string,
-  uid: PropTypes.number,
+  user: PropTypes.object,
   logout: PropTypes.func
 }
 
@@ -80,30 +79,11 @@ const ToolUser = props => {
           />
         </Link>
       </Tooltip>
-      {/* <Tooltip placement="bottom" title={'使用文档'}>
-        <a
-          className="toolbar-li"
-          target="_blank"
-          href="https://yapi.ymfe.org"
-          rel="noopener noreferrer"
-        >
-          <Icon className="dropdown-link" style={{ fontSize: 16 }} type="question-circle" />
-        </a>
-      </Tooltip> */}
       <Dropdown
         className="toolbar-li"
         placement="bottomRight"
         trigger={['click']}
-        overlay={
-          <MenuUser
-            user={props.user}
-            msg={props.msg}
-            uid={props.uid}
-            role={'admin'}
-            relieveLink={props.relieveLink}
-            logout={props.logout}
-          />
-        }
+        overlay={<MenuUser user={props.user} logout={props.logout} />}
       >
         <a className="dropdown-link">
           <span className="avatar-image">
@@ -118,10 +98,7 @@ const ToolUser = props => {
   )
 }
 ToolUser.propTypes = {
-  user: PropTypes.string,
-  msg: PropTypes.string,
-  uid: PropTypes.number,
-  relieveLink: PropTypes.func,
+  user: PropTypes.object,
   logout: PropTypes.func
 }
 
@@ -135,11 +112,11 @@ export default class HeaderCom extends Component {
   }
 
   render() {
-    const { user, msg, uid, role, studyTip, imageUrl, action } = this.props
+    const { imageUrl, action, user } = this.props
     return (
       <Header className="header-box">
         <div className="left">
-          <Link onClick={this.relieveLink} to="/group" className="logo">
+          <Link to="/namespace" className="logo">
             <div className="href" />
           </Link>
           <span className="name">文档中心</span>
@@ -147,11 +124,10 @@ export default class HeaderCom extends Component {
 
         <div className="user-toolbar">
           <ToolUser
-            {...{ studyTip, user, msg, uid, role, imageUrl }}
-            relieveLink={this.relieveLink}
+            {...{ user, imageUrl }}
             logout={() => {
               action.logout()
-              history.push('login')
+              history.push('/login')
             }}
           />
         </div>

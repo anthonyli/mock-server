@@ -11,7 +11,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     action: {
-      ...dispatch.login
+      ...dispatch.login,
+      ...dispatch.common
     }
   }
 }

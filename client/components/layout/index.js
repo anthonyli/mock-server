@@ -30,11 +30,11 @@ class LayoutApp extends Component {
 
   render() {
     const { children, common, action, isfull } = this.props
-    const { spacelist, activeMenu, modal, allUsers } = common.toJS()
+    const { spacelist, activeMenu, modal, allUsers, user } = common.toJS()
     return (
       <div className="m-container">
         <Layout>
-          <Header action={action} />
+          <Header action={action} user={user} />
           {isfull ? (
             <FullContent>{children}</FullContent>
           ) : (

@@ -11,7 +11,7 @@ const expireDate = day => {
 module.exports = async ctx => {
   const user = new User()
 
-  const { userName, userPassword } = ctx.request.body
+  const { userPassword } = ctx.request.body
 
   const userData = await user.login(ctx.request.body)
 
@@ -21,8 +21,9 @@ module.exports = async ctx => {
     if (userData.userPassword === userPassword) {
       // 用户token
       const userToken = {
-        name: userData.userName,
-        nickname: userData.userNickName,
+        userName: userData.userName,
+        userNickName: userData.userNickName,
+        role: userData.role,
         id: userData.id
       }
       ctx.user = { ...userToken }
@@ -34,9 +35,7 @@ module.exports = async ctx => {
       ctx.body = {
         code: 0,
         data: {
-          userNickName: userData.userNickName,
-          id: userData.id,
-          userName,
+          user: userToken,
           token
         }
       }
