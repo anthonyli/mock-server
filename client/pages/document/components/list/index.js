@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import history from 'common/history'
 import { Table } from 'antd'
+import moment from 'moment'
 import './index.less'
 
 class ListViews extends React.Component {
@@ -17,6 +18,23 @@ class ListViews extends React.Component {
     {
       title: '名称',
       dataIndex: 'title'
+    },
+    {
+      title: '路径',
+      render: record => {
+        return JSON.parse(record.content).pathName
+      }
+    },
+    {
+      title: '最后更新',
+      render: record => {
+        return (
+          <span>
+            {moment(record.updatedTime).format('YYYY-MM-DD hh:mm:ss')}&nbsp;&nbsp;by&nbsp;&nbsp;
+            {record.author}
+          </span>
+        )
+      }
     },
     {
       title: '操作',
