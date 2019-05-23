@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Icon, Input, Button, message as $message } from 'antd'
+import { Form, Input, Button, message as $message } from 'antd'
 import history from 'common/history'
 
 import './index.less'
@@ -45,31 +45,56 @@ class Profile extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form
 
+    const formItemLayout50 = {
+      labelCol: { span: 4 },
+      wrapperCol: { span: 16 }
+    }
+
     return (
       <Form onSubmit={this.login} className="login-box">
-        <FormItem className="login-item">
-          {getFieldDecorator('userName', {
-            rules: [{ required: true, message: '请输入账号' }]
-          })(
-            <Input
-              className="login-input"
-              prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              placeholder="请输入账号"
-            />
-          )}
+        <FormItem className="add-formitem" label="用户id" {...formItemLayout50}>
+          {getFieldDecorator('canPhone', {
+            rules: [{ required: true, message: '请填写手机' }]
+          })(<Input />)}
         </FormItem>
-        <FormItem className="login-item">
-          {getFieldDecorator('userPassword', {
-            rules: [{ required: true, message: '请输入密码' }]
-          })(
-            <Input
-              className="login-input"
-              prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              type="password"
-              placeholder="请输入密码"
-            />
-          )}
+        <FormItem className="add-formitem" label="用户名" {...formItemLayout50}>
+          {getFieldDecorator('canPhone', {
+            rules: [{ required: true, message: '请填写手机' }]
+          })(<Input />)}
         </FormItem>
+
+        <FormItem className="add-formitem" label="昵称" {...formItemLayout50}>
+          {getFieldDecorator('canPhone', {
+            rules: [{ required: true, message: '请填写手机' }]
+          })(<Input />)}
+        </FormItem>
+        <FormItem className="add-formitem" label="Email" {...formItemLayout50}>
+          {getFieldDecorator('canPhone', {
+            rules: [{ required: true, message: '请填写手机' }]
+          })(<Input />)}
+        </FormItem>
+
+        <FormItem className="add-formitem" label="角色" {...formItemLayout50}>
+          {getFieldDecorator('canPhone', {
+            rules: [{ required: true, message: '请填写手机' }]
+          })(<Input />)}
+        </FormItem>
+        <FormItem className="add-formitem" label="创建账号时间" {...formItemLayout50}>
+          {getFieldDecorator('canPhone', {
+            rules: [{ required: true, message: '请填写手机' }]
+          })(<Input />)}
+        </FormItem>
+        <FormItem className="add-formitem" label="更新账号时间" {...formItemLayout50}>
+          {getFieldDecorator('canPhone', {
+            rules: [{ required: true, message: '请填写手机' }]
+          })(<Input />)}
+        </FormItem>
+        <FormItem className="add-formitem" label="密码" {...formItemLayout50}>
+          {getFieldDecorator('canPhone', {
+            rules: [{ required: true, message: '请填写手机' }]
+          })(<Input />)}
+        </FormItem>
+
         <FormItem>
           <Button
             size="large"
