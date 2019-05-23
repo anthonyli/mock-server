@@ -14,7 +14,8 @@ const initialState = im.fromJS({
     params: getDefaultParams(),
     defaultParams: getDefaultParams(),
     dataSource: []
-  }
+  },
+  profile: {}
 })
 
 export default {
@@ -35,6 +36,9 @@ export default {
     },
     setUserList: (state, payload) => {
       return state.set('list', im.fromJS(payload))
+    },
+    setProfile: (state, payload) => {
+      return state.set('profile', im.fromJS(payload))
     }
   },
   effects: {
@@ -47,6 +51,10 @@ export default {
       const data = await axios.get('/user/list', { params: newParams })
       this.list(data)
       this.setParams(newParams)
+    },
+    async getFindUser(params, rootState) {
+      const data = await axios.get('/user/findone')
+      this.setProfile(data)
     },
     deleteUser(params, rootState) {
       return axios.post('/user/delete', { id: params })

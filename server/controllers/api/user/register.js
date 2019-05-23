@@ -6,11 +6,11 @@ module.exports = async ctx => {
 
   // 判断用户是否存在
   if (!userData) {
-    const userData = await user.register(ctx)
+    const userDataReg = await user.register(ctx)
 
     ctx.body = {
       code: 0,
-      data: userData
+      data: userDataReg
     }
   } else {
     ctx.body = {

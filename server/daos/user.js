@@ -91,6 +91,14 @@ module.exports = class {
     })
   }
 
+  profile(params) {
+    return global.M.User.findOne({
+      where: {
+        id: params.id
+      }
+    })
+  }
+
   validation(params) {
     return global.M.User.findOne({
       where: {

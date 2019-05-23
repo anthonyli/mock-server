@@ -32,17 +32,10 @@ const MenuUser = props => (
       }
       return (
         <Menu.Item key={key}>
-          {item.name === '个人中心' ? (
-            <Link to={item.path + `/${props.user.id}`}>
-              <Icon type={item.icon} />
-              {item.name}
-            </Link>
-          ) : (
-            <Link to={item.path}>
-              <Icon type={item.icon} />
-              {item.name}
-            </Link>
-          )}
+          <Link to={item.path}>
+            <Icon type={item.icon} />
+            {item.name}
+          </Link>
         </Menu.Item>
       )
     })}

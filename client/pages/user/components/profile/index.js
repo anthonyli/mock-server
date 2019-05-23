@@ -18,6 +18,11 @@ class Profile extends React.Component {
     loginPending: false
   }
 
+  componentDidMount() {
+    const { action } = this.props
+    action.getFindUser()
+  }
+
   login = e => {
     const { login } = this.props.action
     e.preventDefault()
