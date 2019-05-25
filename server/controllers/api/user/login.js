@@ -2,6 +2,11 @@ const User = require('daos/user')
 const jwt = require('jsonwebtoken')
 const secret = require('utils/secret.json')
 
+const rsaPriv = require('../../../rsa_priv')
+const NodeRSA = require('node-rsa')
+const prikey = new NodeRSA(rsaPriv)
+prikey.setOptions({ encryptionScheme: 'pkcs1' })
+
 const expireDate = day => {
   let date = new Date()
   date.setTime(date.getTime() + day * 86400000)
@@ -15,10 +20,12 @@ module.exports = async ctx => {
 
   const userData = await user.login(ctx.request.body)
 
+  const pwd = prikey.decrypt(userPassword, 'utf8')
+
   // 判断用户是否存在
   if (userData) {
     // 判断前端传递的用户密码是否与数据库密码一致
-    if (userData.userPassword === userPassword) {
+    if (userData.userPassword === pwd) {
       // 用户token
       const userToken = {
         userName: userData.userName,

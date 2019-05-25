@@ -52,6 +52,7 @@
     "lodash": "^4.17.4",
     "moment": "^2.15.1",
     "mysql2": "^1.5.1",
+    "node-rsa": "^1.0.5",
     "nprogress": "^0.2.0",
     "qs": "^6.5.1",
     "rc-drawer-menu": "^1.1.0",

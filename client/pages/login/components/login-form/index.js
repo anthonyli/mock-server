@@ -2,10 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Form, Icon, Input, Button, message as $message } from 'antd'
 import history from 'common/history'
+import JSEncrypt from 'jsencrypt'
+import publicKeyStr from 'common/key_pub'
 
 import './index.less'
 
 const FormItem = Form.Item
+const rsaEncrypt = new JSEncrypt()
+rsaEncrypt.setPublicKey(publicKeyStr)
 
 class Login extends React.Component {
   static propTypes = {
@@ -24,6 +28,7 @@ class Login extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.setState({ loginPending: true })
+        values.userPassword = rsaEncrypt.encrypt(values.userPassword)
         login(values)
           .then(rst => {
             localStorage.setItem('_m_token', rst.token)
