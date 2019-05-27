@@ -1,10 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Form, Icon, Input, Button, message as $message } from 'antd'
+import JSEncrypt from 'jsencrypt'
+import publicKeyStr from 'common/key_pub'
+import CryptoJS from 'crypto-js'
 
 import './index.less'
 
 const FormItem = Form.Item
+const rsaEncrypt = new JSEncrypt()
+rsaEncrypt.setPublicKey(publicKeyStr)
 
 class RegLogin extends React.Component {
   static propTypes = {
@@ -25,6 +30,9 @@ class RegLogin extends React.Component {
           $message.error('输入密码不一致！')
           return
         }
+        const pwd = CryptoJS.MD5(values.userPassword).toString()
+        values.userPassword = rsaEncrypt.encrypt(pwd)
+
         this.setState({ loginPending: true })
         register(values)
           .then(rst => {

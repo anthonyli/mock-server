@@ -4,6 +4,7 @@ import { Form, Icon, Input, Button, message as $message } from 'antd'
 import history from 'common/history'
 import JSEncrypt from 'jsencrypt'
 import publicKeyStr from 'common/key_pub'
+import CryptoJS from 'crypto-js'
 
 import './index.less'
 
@@ -28,7 +29,8 @@ class Login extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.setState({ loginPending: true })
-        values.userPassword = rsaEncrypt.encrypt(values.userPassword)
+        const pwd = CryptoJS.MD5(values.userPassword).toString()
+        values.userPassword = rsaEncrypt.encrypt(pwd)
         login(values)
           .then(rst => {
             localStorage.setItem('_m_token', rst.token)
