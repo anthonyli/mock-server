@@ -46,10 +46,19 @@ class ListViews extends React.Component {
               href="javascript:;"
               onClick={e => {
                 e.stopPropagation()
-                history.push(`/document/add/${record.id}`)
+                history.push(`/document/edit/${record.id}`)
               }}
             >
               编辑
+            </a>
+            <a
+              href="javascript:;"
+              onClick={e => {
+                e.stopPropagation()
+                history.push(`/document/copy/${record.id}`)
+              }}
+            >
+              复制
             </a>
             <a
               href="javascript:;"

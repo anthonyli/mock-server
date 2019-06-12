@@ -15,8 +15,8 @@ module.exports = function() {
         try {
           payload = await verify(token.split(' ')[1], secret.sign) // 解密payload，获取用户名和ID
           ctx.user = {
-            name: payload.name,
-            nickname: payload.nickname,
+            name: payload.userName,
+            nickname: payload.userNickName,
             role: payload.role,
             id: payload.id
           }

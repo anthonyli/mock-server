@@ -25,6 +25,8 @@ class EditDoc extends Component {
   }
 
   saveDoc = () => {
+    const { match } = this.props
+    const { copyid } = match.params || {}
     this.props.form.validateFields((errors, values) => {
       if (errors) {
         return false
@@ -35,7 +37,7 @@ class EditDoc extends Component {
       const { pid } = match.params || {}
 
       const docData = {
-        id: editData.id,
+        id: copyid ? '' : editData.id,
         title: values.title,
         pid: editData.pid || pid,
         content: JSON.stringify(Object.assign({}, docContent, values, this.state))
@@ -139,17 +141,22 @@ class EditDoc extends Component {
 
   componentDidMount() {
     const { match } = this.props
-    const { id } = match.params || {}
+    const { id, copyid } = match.params || {}
     const { queryById } = this.props.action
     if (id) {
-      queryById(match.params.id)
+      queryById(id)
+    }
+    if (copyid) {
+      queryById(copyid)
     }
   }
 
   render() {
-    const { document, form } = this.props
+    const { document, form, match } = this.props
     const { editData } = document.toJS()
     const { getFieldDecorator } = form
+
+    const { copyid } = match.params || {}
 
     const docContent = JSON.parse(editData.content || '{}')
 
@@ -171,7 +178,7 @@ class EditDoc extends Component {
         <Form className="mt-20">
           <FormItem label="接口名" {...itemStyle}>
             {getFieldDecorator('title', {
-              initialValue: editData.title,
+              initialValue: copyid ? 'copy-' + editData.title : editData.title,
               rules: [{ required: true, message: '请输入接口名称' }]
             })(<Input placeholder="接口名称" />)}
           </FormItem>

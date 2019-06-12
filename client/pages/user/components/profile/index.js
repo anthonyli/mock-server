@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Form, Input, Button, message as $message } from 'antd'
 import history from 'common/history'
+import moment from 'moment'
 
 import './index.less'
 
@@ -43,51 +44,44 @@ class Profile extends React.Component {
   }
 
   render() {
-    const { getFieldDecorator } = this.props.form
+    const { user, form } = this.props
+
+    const { getFieldDecorator } = form
+
+    const { profile } = user.toJS()
 
     const formItemLayout50 = {
-      labelCol: { span: 4 },
+      labelCol: { span: 2 },
       wrapperCol: { span: 16 }
     }
 
     return (
       <Form onSubmit={this.login} className="login-box">
         <FormItem className="add-formitem" label="用户id" {...formItemLayout50}>
-          {getFieldDecorator('canPhone', {
-            rules: [{ required: true, message: '请填写手机' }]
-          })(<Input />)}
+          {profile.id}
         </FormItem>
         <FormItem className="add-formitem" label="用户名" {...formItemLayout50}>
-          {getFieldDecorator('canPhone', {
-            rules: [{ required: true, message: '请填写手机' }]
-          })(<Input />)}
+          {profile.userName}
         </FormItem>
 
         <FormItem className="add-formitem" label="昵称" {...formItemLayout50}>
-          {getFieldDecorator('canPhone', {
-            rules: [{ required: true, message: '请填写手机' }]
-          })(<Input />)}
+          {profile.userNickName}
+          <Button size="large" type="edit">
+            修改
+          </Button>
         </FormItem>
         <FormItem className="add-formitem" label="Email" {...formItemLayout50}>
-          {getFieldDecorator('canPhone', {
-            rules: [{ required: true, message: '请填写手机' }]
-          })(<Input />)}
+          {profile.email}
         </FormItem>
 
         <FormItem className="add-formitem" label="角色" {...formItemLayout50}>
-          {getFieldDecorator('canPhone', {
-            rules: [{ required: true, message: '请填写手机' }]
-          })(<Input />)}
+          {profile.role === 1 ? '管理员' : '用户'}
         </FormItem>
         <FormItem className="add-formitem" label="创建账号时间" {...formItemLayout50}>
-          {getFieldDecorator('canPhone', {
-            rules: [{ required: true, message: '请填写手机' }]
-          })(<Input />)}
+          {moment(profile.createTime).format('YYYY-MM-DD hh:mm:ss')}
         </FormItem>
         <FormItem className="add-formitem" label="更新账号时间" {...formItemLayout50}>
-          {getFieldDecorator('canPhone', {
-            rules: [{ required: true, message: '请填写手机' }]
-          })(<Input />)}
+          {moment(profile.updateTime).format('YYYY-MM-DD hh:mm:ss')}
         </FormItem>
         <FormItem className="add-formitem" label="密码" {...formItemLayout50}>
           {getFieldDecorator('canPhone', {

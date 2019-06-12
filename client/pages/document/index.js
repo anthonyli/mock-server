@@ -9,7 +9,8 @@ class Project extends Component {
     return (
       <Switch>
         <Route exact component={Add} path="/document/:pid/add" />
-        <Route exact component={Add} path="/document/add/:id" />
+        <Route exact component={Add} path="/document/edit/:id" />
+        <Route exact component={Add} path="/document/copy/:copyid" />
         <Route component={List} path="/" />
       </Switch>
     )

@@ -56,11 +56,11 @@ class DetailForm extends React.Component {
     }
     return (
       <Form onSubmit={this.onSubmit}>
-        <Form.Item {...formItemLayout} label="空间名称">
+        <Form.Item {...formItemLayout} label="项目名称">
           {getFieldDecorator('projectName', {
             initialValue: editData.projectName,
-            rules: [{ required: true, message: '请填写空间名称' }]
-          })(<Input placeholder="请输入空间名称" />)}
+            rules: [{ required: true, message: '请填写项目名称' }]
+          })(<Input placeholder="请输入项目名称" />)}
         </Form.Item>
 
         <Form.Item {...formItemLayout} label="描述">
