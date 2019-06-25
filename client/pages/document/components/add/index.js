@@ -163,7 +163,7 @@ class EditDoc extends Component {
     const reqBody = this.state.reqBody || docContent.reqBody || {}
     const reqHeader = this.state.reqHeader || docContent.reqHeader
 
-    const resBody = !this.state.resBody ? docContent.resBody : this.state.resBody
+    const resBody = this.state.resBody === undefined ? docContent.resBody : this.state.resBody
 
     const itemStyle = {
       labelCol: {
