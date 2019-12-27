@@ -39,7 +39,7 @@
     "history": "^4.7.2",
     "image-size": "^0.6.3",
     "immutable": "^3.8.1",
-    "js-yaml": "^3.6.1",
+    "js-yaml": "^3.13.1",
     "jsencrypt": "^3.0.0-rc.1",
     "jsonwebtoken": "^8.3.0",
     "koa": "^2.0.0",
