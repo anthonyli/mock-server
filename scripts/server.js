@@ -14,7 +14,7 @@ Promise.promisifyAll(fs)
 
 const env = process.env.NODE_ENV || 'development'
 
-const devIp = ip()[0]
+const devIp = ip()[0] || 'localhost'
 const root = path.join(__dirname, '..')
 const viewsPath = path.join(root, 'server/views')
 const configPath = path.join(root, `config/webpack.config.${env}`)
